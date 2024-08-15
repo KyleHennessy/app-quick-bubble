@@ -1,0 +1,20 @@
+<!-- <app-bubble [style]="style"></app-bubble>
+<app-bubble
+  [style]="'blue'"
+></app-bubble>
+<app-bubble
+  [style]="'purple'"
+></app-bubble>
+<app-bubble
+  [style]="'green'"
+></app-bubble> -->
+
+@for (bubble of bubbles; track $index) {
+  <app-bubble [style]="'red'"></app-bubble>
+}
+
+<input type="text" [(ngModel)]="style">
+
+<!-- <button (click)="bubbles.push('purple')">Add</button>
+<button (click)="bubbles.shift()">Remove</button> -->
+<button (click)="sendMessage(style)">Send</button>
