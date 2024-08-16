@@ -26,10 +26,11 @@ import { Bubble } from './models/bubble.model';
   styleUrl: './app.component.scss'
 })
 export class AppComponent implements OnInit {
-  // bubbles: string[] = ['red', 'blue'];
   bubbles: Bubble[] = [];
+  testArray: string[] = [];
   title = 'app-quick-bubble';
-  style = 'red';
+  message: string = '';
+  colour: string = '';
 
   constructor(private bubbleService: BubbleService){}
 
@@ -42,14 +43,15 @@ export class AppComponent implements OnInit {
 
     this.bubbleService.getBubbles().subscribe((bubbles) => {
       this.bubbles = bubbles;
-      console.log(this.bubbles);
     });
   }
 
-  sendMessage(message: string){
+  sendMessage(message: string, colour: string){
     const bubble = {
-      Message: message
+      message: message,
+      colour: colour
     } as Bubble;
+
     this.bubbleService.sendMessage(bubble)
   }
 }

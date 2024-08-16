@@ -1,8 +1,9 @@
 export interface Bubble {
-    Message: string;
-    RemoveAt: Date;
-    InitialX: string;
-    InitialY: string;
-    FinalX: string;
-    FinalY: string;
+    message: string;
+    colour: string;
+    removeAt: Date;
+    initialX: number;
+    initialY: number;
+    finalX: number;
+    finalY: number;
 }

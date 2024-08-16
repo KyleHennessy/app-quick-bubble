@@ -1,8 +1,8 @@
 <div class="bubble" [@boxAnimation]="{
     value: boxState,
     params: {
-        initialX: initialX,
-        initialY: initialY,
-        finalX: finalX,
-        finalY: finalY
-    }}" cdkDrag [ngStyle]="{'background-color': style}"></div>
+        initialX: '-' + model.initialX + '%',
+        initialY: '-' + model.initialY + '%',
+        finalX: model.finalX + '%',
+        finalY: model.finalY + '%'
+    }}" cdkDrag [ngStyle]="{'background-color': model?.colour}">{{model?.message}}</div>
