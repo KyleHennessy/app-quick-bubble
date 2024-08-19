@@ -1,11 +1,3 @@
-<div class="container">
-  <div class="row">
-    @for (bubble of bubbles; track $index) {
-      <app-bubble [model]="bubble"></app-bubble>
-    }
-  </div>
-  
-  <input type="text" [(ngModel)]="message" placeholder="message">
-  <input type="text" [(ngModel)]="colour" placeholder="colour">
-  <button class="btn btn-primary" (click)="sendMessage(message, colour)">Send</button>
-</div>
+<app-frame></app-frame>
+
+<app-launcher></app-launcher>

@@ -1,4 +1,4 @@
-import {Component, HostBinding, OnInit} from '@angular/core';
+import {Component, HostBinding, OnDestroy, OnInit} from '@angular/core';
 import {
   trigger,
   state,
@@ -12,6 +12,9 @@ import { BubbleComponent } from './bubble/bubble.component';
 import { FormsModule } from '@angular/forms';
 import { BubbleService } from './services/bubble.service';
 import { Bubble } from './models/bubble.model';
+import { LauncherComponent } from './launcher/launcher.component';
+import { Subscription } from 'rxjs';
+import { FrameComponent } from './frame/frame.component';
 
 @Component({
   selector: 'app-root',
@@ -20,38 +23,28 @@ import { Bubble } from './models/bubble.model';
     RouterOutlet,
     OpenCloseComponent,
     BubbleComponent,
-    FormsModule
+    FormsModule,
+    LauncherComponent,
+    FrameComponent
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
-export class AppComponent implements OnInit {
-  bubbles: Bubble[] = [];
-  testArray: string[] = [];
+export class AppComponent implements OnInit, OnDestroy {
   title = 'app-quick-bubble';
-  message: string = '';
-  colour: string = '';
+  receiveBubbleSubscription: Subscription;
 
   constructor(private bubbleService: BubbleService){}
 
   ngOnInit(): void {
-    this.bubbleService.startConnection().subscribe(() => {
+    this.receiveBubbleSubscription = this.bubbleService.startConnection().subscribe(() => {
       this.bubbleService.receiveMessage().subscribe((message) => {
         this.bubbleService.pushBubble(message);
       })
     })
-
-    this.bubbleService.getBubbles().subscribe((bubbles) => {
-      this.bubbles = bubbles;
-    });
   }
 
-  sendMessage(message: string, colour: string){
-    const bubble = {
-      message: message,
-      colour: colour
-    } as Bubble;
-
-    this.bubbleService.sendMessage(bubble)
+  ngOnDestroy(): void {
+    this.receiveBubbleSubscription.unsubscribe();
   }
 }
