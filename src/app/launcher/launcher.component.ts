@@ -20,7 +20,6 @@ export class LauncherComponent {
 
   initialMouseX: number;
   initialMouseY: number;
-  // arrowBase: number = 0;
   arrowTransform: string;
   arrowClicked: boolean = false;
 
@@ -37,36 +36,31 @@ export class LauncherComponent {
     this.bubbleService.sendMessage(bubble);
   }
 
+  /**
+   * Handles the mouse movement when dragging the arrow.
+   * Calculates the rotation angle based on the cursor position.
+   * @param event The MouseEvent object containing cursor position information.
+   */
+  private calculateArrowAngle(event: MouseEvent) {
+    // Get the bounding rectangle of the arrow element
+    const arrowRect = this.arrowElem.nativeElement.getBoundingClientRect();
+
+    // Calculate the horizontal distance from the arrow center to the cursor
+    const horizontalDistance = event.clientX - arrowRect.left - arrowRect.width / 2;
+
+    // Normalize horizontal distance to ensure it stays within the valid range
+    const normalizedHorizontalDistance = Math.min(Math.max(horizontalDistance, -arrowRect.width / 2), arrowRect.width / 2);
+
+    //Calculate the rotation angle in degrees. Max degrees either direction is 80 (hard coded);
+    const angleDegrees = (normalizedHorizontalDistance / (arrowRect.width / 2) * 80);
+
+    //Set the CSS tranform property to rotate the arrow
+    this.arrowTransform = `rotate(${angleDegrees}deg)`;
+  }
+
   onMoveArrow(event: MouseEvent) {
-    console.log(this.arrowElem.nativeElement.getBoundingClientRect());
-
-    const arrowYpos = this.arrowElem.nativeElement.getBoundingClientRect().top;
-
     if (this.arrowClicked) {
-      // const dx = event.clientX - this.initialMouseX;
-      // const dy = event.clientY - arrowYpos;
-
-
-      // if(dx >= 0) {
-      //   const angleRadians = Math.atan2(dy, dx);
-      //   const angleDegrees = (angleRadians * 180) / Math.PI;
-      //   this.arrowTransform = `rotate(${angleDegrees}deg)`;
-      // }
-      
-      const arrowRect = this.arrowElem.nativeElement.getBoundingClientRect();
-      const dx = event.clientX - arrowRect.left - arrowRect.width / 2;
-      const dy = event.clientY - arrowRect.top - arrowRect.height / 2;
-      
-
-      const angleRadians = Math.atan2(dy, dx);
-      const angleDegrees = (angleRadians * 180) / Math.PI;
-
-      if(angleDegrees >= -80 && angleDegrees <= 80){
-        this.arrowTransform = `rotate(${angleDegrees}deg)`;
-      }
-
-
-      console.log('Mouse movement:', dx, dy)
+      this.calculateArrowAngle(event)
     }
   }
 
@@ -74,11 +68,11 @@ export class LauncherComponent {
     this.arrowClicked = true;
     this.initialMouseX = event.clientX;
     this.initialMouseY = event.clientY;
-    console.log('arrow clicked at', this.initialMouseX, this.initialMouseY);
+
+    this.calculateArrowAngle(event);
   }
 
   onReleaseArrow() {
     this.arrowClicked = false;
-    console.log('arrow released');
   }
 }
