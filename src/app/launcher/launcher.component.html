@@ -1,5 +1,15 @@
-<div class="arrow">
-    <img src="../../assets/arrow-up.svg" alt="arrow" height="100" width="100">
+<div class="arrow" #arrow>
+    <img 
+        draggable="false"
+        src="../../assets/arrow-up.svg" 
+        alt="arrow" 
+        height="100" 
+        width="100" 
+        (mousedown)="onClickArrow($event)"
+        (window:mousemove)="onMoveArrow($event)"
+        (window:mouseup)="onReleaseArrow()"
+        [ngStyle]="{'transform': arrowTransform}"
+    >
 </div>
 <div class="launcher">
     <div class="launcher-container">
