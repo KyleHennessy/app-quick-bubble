@@ -20,7 +20,12 @@
     justify-content: center;
     margin: 0 auto;
     background-color: white;
+    padding-left: 10px;
 }
 .colour-picker{
     width: 20px;
+}
+
+input{
+    border: 1px solid gray;
 }

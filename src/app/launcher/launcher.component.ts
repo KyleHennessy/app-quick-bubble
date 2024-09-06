@@ -16,7 +16,7 @@ import { NgStyle } from '@angular/common';
 })
 export class LauncherComponent {
   message: string = '';
-  colour: string = '';
+  colour: string = '#0d6efd';
 
   initialMouseX: number;
   initialMouseY: number;
@@ -28,9 +28,10 @@ export class LauncherComponent {
   constructor(private bubbleService: BubbleService) { }
 
   sendMessage(message: string, colour: string) {
+    console.log(this.colour)
     const bubble = {
       message: message,
-      colour: colour
+      colour: this.colour
     } as Bubble;
 
     this.bubbleService.sendMessage(bubble);
