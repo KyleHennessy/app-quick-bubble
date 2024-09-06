@@ -1,5 +1,9 @@
 /* You can add global styles to this file, and also import other style files */
-body{
-    overflow-y: hidden;
-    overflow-x: hidden;
+body {
+  overflow-y: hidden;
+  overflow-x: hidden;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  height: 50%;
 }

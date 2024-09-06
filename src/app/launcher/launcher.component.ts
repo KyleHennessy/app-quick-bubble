@@ -9,7 +9,7 @@ import { NgStyle } from '@angular/common';
   standalone: true,
   imports: [
     FormsModule,
-    NgStyle
+    NgStyle,
   ],
   templateUrl: './launcher.component.html',
   styleUrl: './launcher.component.scss'
@@ -52,7 +52,7 @@ export class LauncherComponent {
     const normalizedHorizontalDistance = Math.min(Math.max(horizontalDistance, -arrowRect.width / 2), arrowRect.width / 2);
 
     //Calculate the rotation angle in degrees. Max degrees either direction is 80 (hard coded);
-    const angleDegrees = (normalizedHorizontalDistance / (arrowRect.width / 2) * 80);
+    const angleDegrees = (normalizedHorizontalDistance / (arrowRect.width / 2) * 40);
 
     //Set the CSS tranform property to rotate the arrow
     this.arrowTransform = `rotate(${angleDegrees}deg)`;

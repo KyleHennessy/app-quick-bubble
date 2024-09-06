@@ -1,17 +1,8 @@
-import {Component, HostBinding, OnDestroy, OnInit} from '@angular/core';
-import {
-  trigger,
-  state,
-  style,
-  animate,
-  transition,
-} from '@angular/animations';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { OpenCloseComponent } from './open-close/open-close.component';
 import { BubbleComponent } from './bubble/bubble.component';
 import { FormsModule } from '@angular/forms';
 import { BubbleService } from './services/bubble.service';
-import { Bubble } from './models/bubble.model';
 import { LauncherComponent } from './launcher/launcher.component';
 import { Subscription } from 'rxjs';
 import { FrameComponent } from './frame/frame.component';
@@ -21,11 +12,10 @@ import { FrameComponent } from './frame/frame.component';
   standalone: true,
   imports: [
     RouterOutlet,
-    OpenCloseComponent,
     BubbleComponent,
     FormsModule,
     LauncherComponent,
-    FrameComponent
+    FrameComponent,
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'

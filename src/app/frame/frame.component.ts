@@ -8,7 +8,7 @@ import { Subscription } from 'rxjs';
   selector: 'app-frame',
   standalone: true,
   imports: [
-    BubbleComponent
+    BubbleComponent,
   ],
   templateUrl: './frame.component.html',
   styleUrl: './frame.component.scss'

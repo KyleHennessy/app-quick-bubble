@@ -46,7 +46,6 @@ export class BubbleService {
   receiveMessage(): Observable<Bubble> {
     return new Observable<Bubble>((observer) => {
       this.hubConnection.on('ReceiveMessage', (message: Bubble) => {
-        console.log(message)
         observer.next(message);
       });
     });

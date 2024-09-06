@@ -1,4 +1,5 @@
-<div class="arrow" #arrow>
+<!-- TODO add back the arrow when figured out how to parameterize the coordinates-->
+<!-- <div class="arrow" #arrow>
     <img 
         draggable="false"
         src="../../assets/arrow-up.svg" 
@@ -10,11 +11,19 @@
         (window:mouseup)="onReleaseArrow()"
         [ngStyle]="{'transform': arrowTransform}"
     >
-</div>
+</div> -->
 <div class="launcher">
-    <div class="launcher-container">
-        <input type="text" [(ngModel)]="message" placeholder="message">
-        <input type="text" [(ngModel)]="colour" placeholder="colour">
-        <button class="btn btn-primary" (click)="sendMessage(message, colour)">Send</button>
+    <div class="row mt-1">
+        <div class="col-10">
+            <input type="text" [(ngModel)]="message" placeholder="message" style="width: 90%;">
+        </div>
+        <div class="col">
+            <input type="color" [style.background]="colour">
+        </div>
+    </div>
+    <div class="row mt-1 mb-1">
+        <div class="col">
+            <button class="btn btn-primary" (click)="sendMessage(message, colour)">Send</button>
+        </div>
     </div>
 </div>

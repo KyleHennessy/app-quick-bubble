@@ -1,8 +1,6 @@
-<div class="bubble" [@boxAnimation]="{
-    value: boxState,
+<div class="bubble" [@moveBubble]="{
+    value: state,
     params: {
-        initialX: '-' + model.initialX + '%',
-        initialY: '-' + model.initialY + '%',
-        finalX: model.finalX + '%',
-        finalY: model.finalY + '%'
-    }}" cdkDrag [ngStyle]="{'background-color': model?.colour}">{{model?.message}}</div>
+        transform: transform
+    }}"
+    (mousedown)="onMouseDown()" (mouseup)="onMouseUp()" (mousemove)="onMouseMove($event)">{{model?.message}}</div>
