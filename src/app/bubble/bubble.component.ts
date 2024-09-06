@@ -1,5 +1,5 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, HostListener, Input, OnInit } from '@angular/core';
 import { interval, Subscription, timer } from 'rxjs';
 import { Bubble } from '../models/bubble.model';
 import { NgStyle } from '@angular/common';
@@ -55,6 +55,7 @@ export class BubbleComponent implements OnInit {
     }
   }
 
+  @HostListener('document:mousemove', ['$event'])
   onMouseMove(event: MouseEvent) {
     if (this.mouseDown) {
       const { clientX, clientY } = event;
@@ -65,6 +66,7 @@ export class BubbleComponent implements OnInit {
     }
   }
 
+  @HostListener('document:mouseup')
   onMouseUp() {
     if (this.mouseDown) {
       this.mouseDown = false;
