@@ -1,5 +1,5 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import { Component, HostListener, Input, OnInit } from '@angular/core';
+import { Component, HostListener, Input, OnInit, Renderer2 } from '@angular/core';
 import { interval, Subscription, timer } from 'rxjs';
 import { Bubble } from '../models/bubble.model';
 import { NgStyle } from '@angular/common';
@@ -33,6 +33,9 @@ export class BubbleComponent implements OnInit {
   animationSubscription: Subscription;
   idleSubscription: Subscription;
   autoMoveSubscription: Subscription;
+  cursor = 'grab';
+
+  constructor(private renderer: Renderer2){}
 
   ngOnInit(): void {
     this.pos = [window.innerWidth / 2, 0];
@@ -46,6 +49,8 @@ export class BubbleComponent implements OnInit {
 
   onMouseDown() {
     this.mouseDown = true;
+    this.cursor = 'grabbing';
+    this.renderer.setStyle(document.body, 'cursor', this.cursor);
     this.resetIdleTimer();
     if (this.animationSubscription) {
       this.animationSubscription.unsubscribe();
@@ -61,7 +66,7 @@ export class BubbleComponent implements OnInit {
       const { clientX, clientY } = event;
       this.velocity = [clientX - this.pos[0], clientY - this.pos[1]];
       this.pos = [clientX, clientY];
-      this.transform = `translate3d(${clientX}px, ${clientY}px, 0)`;
+      this.transform = `translate3d(${clientX - 150}px, ${clientY}px, 0)`;
       this.state = 'moved';
     }
   }
@@ -72,6 +77,8 @@ export class BubbleComponent implements OnInit {
       this.mouseDown = false;
       this.startDeceleration();
       this.startIdleTimer();
+      this.cursor = 'grab';
+      this.renderer.setStyle(document.body, 'cursor', 'auto');
     }
   }
 
@@ -149,6 +156,12 @@ export class BubbleComponent implements OnInit {
       this.transform = `translate3d(${this.pos[0]}px, ${this.pos[1]}px, 0)`;
       this.state = 'moved';
     });
+  }
+
+  onCopy(message: string){
+    if(message){
+      navigator.clipboard.writeText(message);
+    }
   }
 }
 

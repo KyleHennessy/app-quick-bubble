@@ -2,6 +2,16 @@
     value: state,
     params: {
         transform: transform
-    }}"
-    [ngStyle]="{'background': model.colour}"
-    (mousedown)="onMouseDown()">{{model?.message}}</div>
+    }}" 
+    [ngStyle]="{
+        'background': model.colour, 
+        'cursor': cursor === 'grabbing' ? cursor : 'auto',}" 
+>
+    <div class="grabber" (mousedown)="onMouseDown()" [ngStyle]="{'cursor': cursor}">
+        
+    </div>
+    <div class="content">
+        <span class="message">{{model?.message}}</span>
+        <button class="btn copy" [ngStyle]="{'background': model.colour}" (click)="onCopy(model?.message)"><i class="bi bi-copy"></i></button>
+    </div>
+</div>
