@@ -1,9 +1,10 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import { Component, HostListener, Input, OnInit, Renderer2 } from '@angular/core';
+import { Component, HostListener, Input, OnInit, Output, Renderer2 } from '@angular/core';
 import { interval, Subscription, timer } from 'rxjs';
 import { Bubble } from '../models/bubble.model';
 import { NgStyle } from '@angular/common';
 import { CdkDrag } from '@angular/cdk/drag-drop';
+import { BubbleService } from '../services/bubble.service';
 
 @Component({
   selector: 'app-bubble',
@@ -24,6 +25,8 @@ import { CdkDrag } from '@angular/cdk/drag-drop';
 })
 export class BubbleComponent implements OnInit {
   @Input() model?: Bubble;
+  // bubble: Bubble;
+  id: string;
   pos = [0, 0];
   transform = 'translate3d(50rem, 100vh, 0)';
   state = 'default';
@@ -35,9 +38,10 @@ export class BubbleComponent implements OnInit {
   autoMoveSubscription: Subscription;
   cursor = 'grab';
 
-  constructor(private renderer: Renderer2){}
+  constructor(private bubbleService: BubbleService, private renderer: Renderer2){}
 
   ngOnInit(): void {
+    // this.bubble = {...this.model};
     this.pos = [window.innerWidth / 2, 0];
     this.transform = `translate3d(${window.innerWidth / 2}px, ${window.innerHeight}px, 0)`;
     setTimeout(() => {
@@ -45,6 +49,11 @@ export class BubbleComponent implements OnInit {
       this.transform = `translate3d(${window.innerWidth / 2}px, 0px, 0)`;
       this.startIdleTimer();
     }, 0);
+
+    timer(5000).subscribe(() => {
+      console.log(this.model?.id)
+      this.bubbleService.removeBubble(this.model?.id);
+    })
   }
 
   onMouseDown() {

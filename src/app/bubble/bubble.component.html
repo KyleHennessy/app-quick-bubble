@@ -1,11 +1,13 @@
-<div class="bubble" [@moveBubble]="{
+<div class="bubble" 
+    [@moveBubble]="{
     value: state,
     params: {
         transform: transform
     }}" 
     [ngStyle]="{
         'background': model.colour, 
-        'cursor': cursor === 'grabbing' ? cursor : 'auto',}" 
+        'cursor': cursor === 'grabbing' ? cursor : 'auto',
+    }"
 >
     <div class="grabber" (mousedown)="onMouseDown()" [ngStyle]="{'cursor': cursor}">
         

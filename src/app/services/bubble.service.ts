@@ -8,14 +8,18 @@ import { Bubble } from '../models/bubble.model';
 })
 export class BubbleService {
   private hubConnection: signalR.HubConnection;
-  private bubbles = new BehaviorSubject<Bubble[]>([]);
+  private bubbles = new BehaviorSubject<Map<string, Bubble>>(new Map<string, Bubble>([]));
 
   pushBubble(bubble: Bubble) {
-    this.bubbles.value.push(bubble);
+    this.bubbles.value.set(bubble.id, bubble);
   }
 
-  getBubbles() : Observable<Bubble[]>{
+  getBubbles() : Observable<Map<string, Bubble>>{
     return this.bubbles;
+  }
+
+  removeBubble(id: string) : void{
+    this.bubbles.value.delete(id);
   }
 
   constructor() { 
