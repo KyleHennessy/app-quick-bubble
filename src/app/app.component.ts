@@ -8,6 +8,7 @@ import { Subscription } from 'rxjs';
 import { FrameComponent } from './frame/frame.component';
 import { CardModule } from 'primeng/card';
 import { FloatLabelModule } from 'primeng/floatlabel';
+import { InputTextModule } from 'primeng/inputtext';
 
 @Component({
   selector: 'app-root',
@@ -19,7 +20,8 @@ import { FloatLabelModule } from 'primeng/floatlabel';
     LauncherComponent,
     FrameComponent,
     CardModule,
-    FloatLabelModule
+    FloatLabelModule,
+    InputTextModule
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
