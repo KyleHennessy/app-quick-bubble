@@ -4,12 +4,18 @@ import { interval, Subscription, timer } from 'rxjs';
 import { Bubble } from '../models/bubble.model';
 import { NgStyle } from '@angular/common';
 import { BubbleService } from '../services/bubble.service';
+import { ButtonModule } from 'primeng/button';
+import { TooltipModule } from 'primeng/tooltip';
+import { MessageService } from 'primeng/api';
+import { Toast } from '../models/toast.model';
 
 @Component({
   selector: 'app-bubble',
   standalone: true,
   imports: [
     NgStyle,
+    ButtonModule,
+    TooltipModule,
   ],
   templateUrl: './bubble.component.html',
   styleUrl: './bubble.component.scss',
@@ -35,7 +41,7 @@ export class BubbleComponent implements OnInit {
   autoMoveSubscription: Subscription;
   cursor = 'grab';
 
-  constructor(private bubbleService: BubbleService, private renderer: Renderer2){}
+  constructor(private bubbleService: BubbleService, private renderer: Renderer2, private messageService: MessageService){}
 
   ngOnInit(): void {
     setTimeout(() => {
@@ -44,10 +50,10 @@ export class BubbleComponent implements OnInit {
       this.startIdleTimer();
     }, 0);
 
-    // timer(20000).subscribe(() => {
-    //   console.log(this.model?.id)
-    //   this.bubbleService.removeBubble(this.model?.id);
-    // })
+    timer(20000).subscribe(() => {
+      console.log(this.model?.id)
+      this.bubbleService.removeBubble(this.model?.id);
+    })
   }
 
   onMouseDown() {
@@ -75,10 +81,9 @@ export class BubbleComponent implements OnInit {
   }
 
   @HostListener('document:mouseup')
-  onMouseUp(event: MouseEvent) {
+  onMouseUp() {
     if (this.mouseDown) {
       this.mouseDown = false;
-      this.pos = [event.clientX, event.clientY]
       this.startDeceleration();
       this.startIdleTimer();
       this.cursor = 'grab';
@@ -164,7 +169,14 @@ export class BubbleComponent implements OnInit {
 
   onCopy(message: string){
     if(message){
+      console.log(message)
       navigator.clipboard.writeText(message);
+      const toast = {
+        severity: 'info',
+        summary: 'Info',
+        detail: 'Message copied to clipboard'
+      } as Toast
+      this.messageService.add(toast)
     }
   }
 }

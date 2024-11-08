@@ -7,7 +7,9 @@ import { FrameComponent } from './frame/frame.component';
 import { CardModule } from 'primeng/card';
 import { FloatLabelModule } from 'primeng/floatlabel';
 import { InputTextModule } from 'primeng/inputtext';
-import { PrimeNGConfig } from 'primeng/api';
+import { MessageService, PrimeNGConfig } from 'primeng/api';
+import { MessagesModule } from 'primeng/messages';
+import { ToastModule } from 'primeng/toast';
 
 @Component({
   selector: 'app-root',
@@ -18,8 +20,11 @@ import { PrimeNGConfig } from 'primeng/api';
     FrameComponent,
     CardModule,
     FloatLabelModule,
-    InputTextModule
+    InputTextModule,
+    MessagesModule,
+    ToastModule
   ],
+  providers:[MessageService],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
@@ -41,5 +46,8 @@ export class AppComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.receiveBubbleSubscription.unsubscribe();
+  }
+
+  addToast(){
   }
 }

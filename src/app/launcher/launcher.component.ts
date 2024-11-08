@@ -13,6 +13,10 @@ import { InputGroupModule } from 'primeng/inputgroup';
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { SpeedDialModule } from 'primeng/speeddial';
 import { FloatLabelModule } from 'primeng/floatlabel';
+import { MessageModule } from 'primeng/message';
+import { MessagesModule } from 'primeng/messages';
+import { MessageService } from 'primeng/api';
+import { Toast } from '../models/toast.model';
 
 @Component({
   selector: 'app-launcher',
@@ -21,7 +25,6 @@ import { FloatLabelModule } from 'primeng/floatlabel';
     FormsModule,
     CardModule,
     ButtonModule,
-    NgStyle,
     InputTextModule,
     ColorPickerModule,
     ButtonModule,
@@ -30,7 +33,7 @@ import { FloatLabelModule } from 'primeng/floatlabel';
     InputGroupAddonModule,
     RadioButtonModule,
     SpeedDialModule,
-    FloatLabelModule
+    FloatLabelModule,
   ],
   templateUrl: './launcher.component.html',
   styleUrl: './launcher.component.scss',
@@ -39,14 +42,6 @@ import { FloatLabelModule } from 'primeng/floatlabel';
 export class LauncherComponent {
   message: string = '';
   colour: string = '#0d6efd';
-  speeddialButtons = [
-    // {icon: 'pi pi-pencil'},
-    // {icon: 'pi pi-refresh'},
-    // {icon: 'pi pi-pencil'},
-    // {icon: 'pi pi-refresh'},
-    // {icon: 'pi pi-pencil'},
-    // {icon: 'pi pi-refresh'},
-  ]
   initialMouseX: number;
   initialMouseY: number;
   arrowTransform: string;
@@ -54,16 +49,21 @@ export class LauncherComponent {
 
   @ViewChild('arrow') arrowElem: ElementRef;
 
-  constructor(private bubbleService: BubbleService) { }
+  constructor(private bubbleService: BubbleService, private messageService: MessageService) { }
 
   sendMessage(message: string, colour: string) {
-    console.log(this.colour)
     const bubble = {
       message: message,
       colour: this.colour
     } as Bubble;
 
     this.bubbleService.sendMessage(bubble);
+    const toast: Toast = {
+      severity: 'success',
+      summary: 'Success',
+      detail: 'Bubble sent successfully'
+    }
+    this.messageService.add(toast)
   }
 
   /**
