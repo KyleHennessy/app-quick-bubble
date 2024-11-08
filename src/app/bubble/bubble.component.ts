@@ -15,24 +15,17 @@ import { BubbleService } from '../services/bubble.service';
   styleUrl: './bubble.component.scss',
   animations: [
     trigger('moveBubble', [
-      state('default', style({ transform: 'translateY(-10000px)' })),
+      state('default', style({ transform: `translate3d(${window.innerWidth / 2 -150}px, -10000px, 0)` })),
       state('moved', style({ transform: '{{transform}}' }), { params: { transform: 'translateY(10000px)' } }),
       transition('default => moved', animate('1s ease-out'))
     ]),
-
-    // trigger('moveBubble', [
-    //   state('default', style({ transform: 'translateY(10000px)' })),
-    //   state('moved', style({ transform: 'translateY(100px)' })),
-    //   transition('default => moved', animate('1s ease-out'))
-    // ])
   ]
 })
 export class BubbleComponent implements OnInit {
   @Input() model?: Bubble;
-  // bubble: Bubble;
   id: string;
-  pos = [0, 500];
-  transform = 'translate3d(0, -10px, 0)';
+  pos = [window.innerWidth / 2 - 150, window.innerHeight / 2];
+  transform = `translate3d(${window.innerWidth / 2 -150}px, -10000px, 0)`;
   state = 'default';
   mouseDown = false;
   velocity = [0, 0];
@@ -45,12 +38,9 @@ export class BubbleComponent implements OnInit {
   constructor(private bubbleService: BubbleService, private renderer: Renderer2){}
 
   ngOnInit(): void {
-    // this.bubble = {...this.model};
-    // this.pos = [window.innerWidth / 2, 0];
-    this.transform = `translate3d(0, -10px, 0)`;
     setTimeout(() => {
       this.state = 'moved';
-      this.transform = `translate3d(0, 500px, 0)`;
+      this.transform = `translate3d(${this.pos[0]}px, ${this.pos[1]}px, 0)`;
       this.startIdleTimer();
     }, 0);
 
@@ -85,9 +75,10 @@ export class BubbleComponent implements OnInit {
   }
 
   @HostListener('document:mouseup')
-  onMouseUp() {
+  onMouseUp(event: MouseEvent) {
     if (this.mouseDown) {
       this.mouseDown = false;
+      this.pos = [event.clientX, event.clientY]
       this.startDeceleration();
       this.startIdleTimer();
       this.cursor = 'grab';
