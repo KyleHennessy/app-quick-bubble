@@ -3,3 +3,15 @@
     flex-direction: column;
     height: 100vh;
 }
+
+.p-footer {
+    background-color: red; /* Example background color */
+    padding: 1rem; /* Example padding */
+    text-align: center; /* Center the text */
+    width: 100%;
+    z-index: 10000;
+  }
+  
+  .app-launcher{
+    width: 10px;
+  }

@@ -1,9 +1,10 @@
-/* You can add global styles to this file, and also import other style files */
-body {
-  overflow-y: hidden;
-  overflow-x: hidden;
-  -webkit-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  height: 50%;
+/* Order */
+@layer reset, primeng;
+
+/* Reset CSS */
+@layer reset {
+    button,
+    input {
+        /* CSS to Reset */
+    }
 }

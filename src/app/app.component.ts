@@ -6,6 +6,8 @@ import { BubbleService } from './services/bubble.service';
 import { LauncherComponent } from './launcher/launcher.component';
 import { Subscription } from 'rxjs';
 import { FrameComponent } from './frame/frame.component';
+import { CardModule } from 'primeng/card';
+import { FloatLabelModule } from 'primeng/floatlabel';
 
 @Component({
   selector: 'app-root',
@@ -16,6 +18,8 @@ import { FrameComponent } from './frame/frame.component';
     FormsModule,
     LauncherComponent,
     FrameComponent,
+    CardModule,
+    FloatLabelModule
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'

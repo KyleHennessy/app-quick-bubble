@@ -12,7 +12,7 @@
         [ngStyle]="{'transform': arrowTransform}"
     >
 </div> -->
-<div class="launcher">
+<!-- <div class="launcher">
     <div class="row mt-1 mb-2">
         <div class="col-10">
             <input type="text" class="form-control" [(ngModel)]="message" placeholder="message" style="width: 100%;" required="true">
@@ -25,5 +25,34 @@
         <div class="col">
             <button class="btn btn-primary" (click)="sendMessage(message, colour)">Send</button>
         </div>
+    </div>
+</div> -->
+<!-- 
+<div class="flex flex-wrap gap-2 mt-1 mb-2">
+    <div class="flex-1">
+        <input type="text" class="p-inputtext w-full" [(ngModel)]="message" placeholder="message" required>
+    </div>
+    <div class="flex-none">
+        <input type="color" class="p-inputtext p-inputtext-color" [(ngModel)]="colour">
+    </div>
+</div>
+<div class="flex mt-1 mb-1">
+    <div class="flex-1">
+        <button class="p-button p-component" (click)="sendMessage(message, colour)">Send</button>
+    </div>
+</div> -->
+
+<div class="card flex justify-content-center">
+    <div class="flex flex-column gap-2">
+        <label for="username">Message</label>
+        <input 
+            pInputText
+            id="username" 
+            aria-describedby="username-help" 
+            class="p-inputtext-lg"
+            [(ngModel)]="message" />
+        <small id="username-help">
+            Enter a message to send to everyone.
+        </small>
     </div>
 </div>

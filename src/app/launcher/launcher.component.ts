@@ -3,12 +3,16 @@ import { Bubble } from '../models/bubble.model';
 import { BubbleService } from '../services/bubble.service';
 import { FormsModule } from '@angular/forms';
 import { NgStyle } from '@angular/common';
+import { CardModule } from 'primeng/card';
+import { ButtonModule } from 'primeng/button';
 
 @Component({
   selector: 'app-launcher',
   standalone: true,
   imports: [
     FormsModule,
+    CardModule,
+    ButtonModule,
     NgStyle,
   ],
   templateUrl: './launcher.component.html',
