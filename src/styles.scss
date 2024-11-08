@@ -1,10 +1,14 @@
-/* Order */
-@layer reset, primeng;
+@import "primeicons/primeicons.css";
 
-/* Reset CSS */
-@layer reset {
-    button,
-    input {
-        /* CSS to Reset */
-    }
+body{
+    background-color: #eff3f8;
+}
+
+.p-colorpicker-panel .p-colorpicker-color {
+	background: transparent url("assets/img/custom-color.png") no-repeat left top
+}
+
+
+.p-colorpicker-panel .p-colorpicker-hue {
+	background: transparent url("assets/img/custom-hue.png") no-repeat left top !important;
 }

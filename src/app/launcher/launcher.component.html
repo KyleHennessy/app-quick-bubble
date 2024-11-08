@@ -42,7 +42,7 @@
     </div>
 </div> -->
 
-<div class="card flex justify-content-center">
+<!-- <div class="card flex justify-content-center">
     <div class="flex flex-column gap-2">
         <label for="username">Message</label>
         <input 
@@ -54,5 +54,24 @@
         <small id="username-help">
             Enter a message to send to everyone.
         </small>
+    </div>
+</div> -->
+
+<div class="grid">
+    <div class="col">
+        <p-inputGroup>
+            <p-floatLabel [style]="{width: '100%'}">
+                <input type="text" pInputText [(ngModel)]="message" id="message" [style]="{width: '100%'}"/>
+                <label for="message">Message</label>
+            </p-floatLabel>
+            <p-inputGroupAddon>
+                <p-colorPicker [(ngModel)]="colour"></p-colorPicker>
+            </p-inputGroupAddon>
+        </p-inputGroup>
+    </div>
+</div>
+<div class="grid mt-1 mb-1">
+    <div class="col-12">
+        <p-button label="Send" (click)="sendMessage(message, colour)" [style]="{ width: '100%' }"></p-button>
     </div>
 </div>

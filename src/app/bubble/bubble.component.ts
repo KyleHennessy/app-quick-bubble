@@ -3,7 +3,6 @@ import { Component, HostListener, Input, OnInit, Output, Renderer2 } from '@angu
 import { interval, Subscription, timer } from 'rxjs';
 import { Bubble } from '../models/bubble.model';
 import { NgStyle } from '@angular/common';
-import { CdkDrag } from '@angular/cdk/drag-drop';
 import { BubbleService } from '../services/bubble.service';
 
 @Component({
@@ -11,7 +10,6 @@ import { BubbleService } from '../services/bubble.service';
   standalone: true,
   imports: [
     NgStyle,
-    CdkDrag
   ],
   templateUrl: './bubble.component.html',
   styleUrl: './bubble.component.scss',

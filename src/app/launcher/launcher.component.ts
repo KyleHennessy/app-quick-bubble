@@ -1,10 +1,18 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { Bubble } from '../models/bubble.model';
 import { BubbleService } from '../services/bubble.service';
 import { FormsModule } from '@angular/forms';
 import { NgStyle } from '@angular/common';
 import { CardModule } from 'primeng/card';
 import { ButtonModule } from 'primeng/button';
+import { InputTextModule } from 'primeng/inputtext';
+import { ColorPickerModule } from 'primeng/colorpicker';
+import { RippleModule } from 'primeng/ripple';
+import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
+import { InputGroupModule } from 'primeng/inputgroup';
+import { RadioButtonModule } from 'primeng/radiobutton';
+import { SpeedDialModule } from 'primeng/speeddial';
+import { FloatLabelModule } from 'primeng/floatlabel';
 
 @Component({
   selector: 'app-launcher',
@@ -14,14 +22,31 @@ import { ButtonModule } from 'primeng/button';
     CardModule,
     ButtonModule,
     NgStyle,
+    InputTextModule,
+    ColorPickerModule,
+    ButtonModule,
+    RippleModule,
+    InputGroupModule,
+    InputGroupAddonModule,
+    RadioButtonModule,
+    SpeedDialModule,
+    FloatLabelModule
   ],
   templateUrl: './launcher.component.html',
-  styleUrl: './launcher.component.scss'
+  styleUrl: './launcher.component.scss',
+  encapsulation: ViewEncapsulation.None
 })
 export class LauncherComponent {
   message: string = '';
   colour: string = '#0d6efd';
-
+  speeddialButtons = [
+    // {icon: 'pi pi-pencil'},
+    // {icon: 'pi pi-refresh'},
+    // {icon: 'pi pi-pencil'},
+    // {icon: 'pi pi-refresh'},
+    // {icon: 'pi pi-pencil'},
+    // {icon: 'pi pi-refresh'},
+  ]
   initialMouseX: number;
   initialMouseY: number;
   arrowTransform: string;
