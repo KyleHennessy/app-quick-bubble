@@ -2,6 +2,9 @@
 
 body{
     background-color: #eff3f8;
+	overflow-x: hidden;
+	overflow-y: hidden;
+	height: 100vh;
 }
 
 .p-colorpicker-panel .p-colorpicker-color {

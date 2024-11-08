@@ -15,18 +15,24 @@ import { BubbleService } from '../services/bubble.service';
   styleUrl: './bubble.component.scss',
   animations: [
     trigger('moveBubble', [
-      state('default', style({ transform: 'translate3d(50rem, 100vh, 0)' })),
-      state('moved', style({ transform: '{{transform}}' }), { params: { transform: 'translate3d(50rem, 0, 0)' } }),
+      state('default', style({ transform: 'translateY(-10000px)' })),
+      state('moved', style({ transform: '{{transform}}' }), { params: { transform: 'translateY(10000px)' } }),
       transition('default => moved', animate('1s ease-out'))
-    ])
+    ]),
+
+    // trigger('moveBubble', [
+    //   state('default', style({ transform: 'translateY(10000px)' })),
+    //   state('moved', style({ transform: 'translateY(100px)' })),
+    //   transition('default => moved', animate('1s ease-out'))
+    // ])
   ]
 })
 export class BubbleComponent implements OnInit {
   @Input() model?: Bubble;
   // bubble: Bubble;
   id: string;
-  pos = [0, 0];
-  transform = 'translate3d(50rem, 100vh, 0)';
+  pos = [0, 500];
+  transform = 'translate3d(0, -10px, 0)';
   state = 'default';
   mouseDown = false;
   velocity = [0, 0];
@@ -40,18 +46,18 @@ export class BubbleComponent implements OnInit {
 
   ngOnInit(): void {
     // this.bubble = {...this.model};
-    this.pos = [window.innerWidth / 2, 0];
-    this.transform = `translate3d(${window.innerWidth / 2}px, ${window.innerHeight}px, 0)`;
+    // this.pos = [window.innerWidth / 2, 0];
+    this.transform = `translate3d(0, -10px, 0)`;
     setTimeout(() => {
       this.state = 'moved';
-      this.transform = `translate3d(${window.innerWidth / 2}px, 0px, 0)`;
+      this.transform = `translate3d(0, 500px, 0)`;
       this.startIdleTimer();
     }, 0);
 
-    timer(5000).subscribe(() => {
-      console.log(this.model?.id)
-      this.bubbleService.removeBubble(this.model?.id);
-    })
+    // timer(20000).subscribe(() => {
+    //   console.log(this.model?.id)
+    //   this.bubbleService.removeBubble(this.model?.id);
+    // })
   }
 
   onMouseDown() {
