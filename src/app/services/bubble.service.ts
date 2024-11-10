@@ -9,6 +9,16 @@ import { Bubble } from '../models/bubble.model';
 export class BubbleService {
   private hubConnection: signalR.HubConnection;
   private bubbles = new BehaviorSubject<Map<string, Bubble>>(new Map<string, Bubble>([]));
+  private selectedInteractOption = new BehaviorSubject<string>('move');
+
+  constructor() { 
+    this.hubConnection = new signalR.HubConnectionBuilder()
+      .withUrl('https://localhost:7016/bubblehub', {
+        skipNegotiation: true,
+        transport: signalR.HttpTransportType.WebSockets
+      })
+      .build();
+  }
 
   pushBubble(bubble: Bubble) {
     this.bubbles.value.set(bubble.id, bubble);
@@ -22,13 +32,12 @@ export class BubbleService {
     this.bubbles.value.delete(id);
   }
 
-  constructor() { 
-    this.hubConnection = new signalR.HubConnectionBuilder()
-      .withUrl('https://localhost:7016/bubblehub', {
-        skipNegotiation: true,
-        transport: signalR.HttpTransportType.WebSockets
-      })
-      .build();
+  setInteractOption(option: string): void {
+    this.selectedInteractOption.next(option);
+  }
+
+  getInteractOption(): Observable<string>{
+    return this.selectedInteractOption.asObservable();
   }
 
   startConnection(): Observable<void>{

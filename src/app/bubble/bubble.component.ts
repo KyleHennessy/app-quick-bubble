@@ -21,7 +21,7 @@ import { Toast } from '../models/toast.model';
   styleUrl: './bubble.component.scss',
   animations: [
     trigger('moveBubble', [
-      state('default', style({ transform: `translate3d(${window.innerWidth / 2 -150}px, -10000px, 0)` })),
+      state('default', style({ transform: `translate3d(${window.innerWidth / 2 - 150}px, -10000px, 0)` })),
       state('moved', style({ transform: '{{transform}}' }), { params: { transform: 'translateY(10000px)' } }),
       transition('default => moved', animate('1s ease-out'))
     ]),
@@ -31,7 +31,7 @@ export class BubbleComponent implements OnInit {
   @Input() model?: Bubble;
   id: string;
   pos = [window.innerWidth / 2 - 150, window.innerHeight / 2];
-  transform = `translate3d(${window.innerWidth / 2 -150}px, -10000px, 0)`;
+  transform = `translate3d(${window.innerWidth / 2 - 150}px, -10000px, 0)`;
   state = 'default';
   mouseDown = false;
   velocity = [0, 0];
@@ -39,9 +39,11 @@ export class BubbleComponent implements OnInit {
   animationSubscription: Subscription;
   idleSubscription: Subscription;
   autoMoveSubscription: Subscription;
-  cursor = 'grab';
+  interactOptionSubscription: Subscription;
+  selectedInteractOption = 'move';
+  cursor = 'auto';
 
-  constructor(private bubbleService: BubbleService, private renderer: Renderer2, private messageService: MessageService){}
+  constructor(private bubbleService: BubbleService, private renderer: Renderer2, private messageService: MessageService) { }
 
   ngOnInit(): void {
     setTimeout(() => {
@@ -53,19 +55,38 @@ export class BubbleComponent implements OnInit {
     timer(20000).subscribe(() => {
       console.log(this.model?.id)
       this.bubbleService.removeBubble(this.model?.id);
+    });
+
+    this.interactOptionSubscription = this.bubbleService.getInteractOption().subscribe((option) => {
+      this.selectedInteractOption = option;
+      if (option === 'move') {
+        this.cursor = 'grab';
+      } else {
+        this.cursor = 'pointer';
+      }
     })
   }
 
   onMouseDown() {
-    this.mouseDown = true;
-    this.cursor = 'grabbing';
-    this.renderer.setStyle(document.body, 'cursor', this.cursor);
-    this.resetIdleTimer();
-    if (this.animationSubscription) {
-      this.animationSubscription.unsubscribe();
-    }
-    if (this.autoMoveSubscription) {
-      this.autoMoveSubscription.unsubscribe();
+    switch (this.selectedInteractOption) {
+      case 'move':
+        this.mouseDown = true;
+        this.cursor = 'grabbing';
+        this.renderer.setStyle(document.body, 'cursor', this.cursor);
+        this.resetIdleTimer();
+        if (this.animationSubscription) {
+          this.animationSubscription.unsubscribe();
+        }
+        if (this.autoMoveSubscription) {
+          this.autoMoveSubscription.unsubscribe();
+        }
+        break;
+      case 'copy':
+        this.onCopy();
+        break;
+      case 'delete':
+        this.onDelete();
+        break;
     }
   }
 
@@ -82,7 +103,7 @@ export class BubbleComponent implements OnInit {
 
   @HostListener('document:mouseup')
   onMouseUp() {
-    if (this.mouseDown) {
+    if (this.mouseDown && this.selectedInteractOption === 'move') {
       this.mouseDown = false;
       this.startDeceleration();
       this.startIdleTimer();
@@ -167,9 +188,9 @@ export class BubbleComponent implements OnInit {
     });
   }
 
-  onCopy(message: string){
-    if(message){
-      console.log(message)
+  onCopy() {
+    const message = this.model.message;
+    if (message) {
       navigator.clipboard.writeText(message);
       const toast = {
         severity: 'info',
@@ -178,6 +199,10 @@ export class BubbleComponent implements OnInit {
       } as Toast
       this.messageService.add(toast)
     }
+  }
+
+  onDelete(){
+    this.bubbleService.removeBubble(this.model?.id);
   }
 }
 

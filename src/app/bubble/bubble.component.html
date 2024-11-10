@@ -6,14 +6,11 @@
     }}" 
     [ngStyle]="{
         'background': model.colour, 
-        'cursor': cursor === 'grabbing' ? cursor : 'auto',
+        'cursor': cursor,
     }"
->
-    <div class="grabber" (mousedown)="onMouseDown()" [ngStyle]="{'cursor': cursor}">
-        
-    </div>
+    (mousedown)="onMouseDown()"
+>       
     <div class="content">
         <span class="message">{{model?.message}}</span>
-        <p-button icon="pi pi-clone" (onClick)="onCopy(model.message)"/>
     </div>
 </div>

@@ -17,6 +17,8 @@ import { MessageModule } from 'primeng/message';
 import { MessagesModule } from 'primeng/messages';
 import { MessageService } from 'primeng/api';
 import { Toast } from '../models/toast.model';
+import { SelectButtonModule } from 'primeng/selectbutton';
+import { TooltipModule } from 'primeng/tooltip';
 
 @Component({
   selector: 'app-launcher',
@@ -34,6 +36,8 @@ import { Toast } from '../models/toast.model';
     RadioButtonModule,
     SpeedDialModule,
     FloatLabelModule,
+    SelectButtonModule,
+    TooltipModule
   ],
   templateUrl: './launcher.component.html',
   styleUrl: './launcher.component.scss',
@@ -42,10 +46,12 @@ import { Toast } from '../models/toast.model';
 export class LauncherComponent {
   message: string = '';
   colour: string = '#0d6efd';
-  initialMouseX: number;
-  initialMouseY: number;
-  arrowTransform: string;
-  arrowClicked: boolean = false;
+  selectedOption = 'move';
+  buttonOptions: {icon: string, value: string, tooltip: string}[] = [
+    { icon: 'pi pi-arrows-alt', value: 'move', tooltip: 'Tap and hold a bubble to move it'},
+    { icon: 'pi pi-clone', value: 'copy', tooltip: 'Tap a bubble to copy it'},
+    { icon: 'pi pi-trash', value: 'delete', tooltip: 'Tap a bubble to delete it' },
+  ];
 
   @ViewChild('arrow') arrowElem: ElementRef;
 
@@ -66,43 +72,8 @@ export class LauncherComponent {
     this.messageService.add(toast)
   }
 
-  /**
-   * Handles the mouse movement when dragging the arrow.
-   * Calculates the rotation angle based on the cursor position.
-   * @param event The MouseEvent object containing cursor position information.
-   */
-  private calculateArrowAngle(event: MouseEvent) {
-    // Get the bounding rectangle of the arrow element
-    const arrowRect = this.arrowElem.nativeElement.getBoundingClientRect();
-
-    // Calculate the horizontal distance from the arrow center to the cursor
-    const horizontalDistance = event.clientX - arrowRect.left - arrowRect.width / 2;
-
-    // Normalize horizontal distance to ensure it stays within the valid range
-    const normalizedHorizontalDistance = Math.min(Math.max(horizontalDistance, -arrowRect.width / 2), arrowRect.width / 2);
-
-    //Calculate the rotation angle in degrees. Max degrees either direction is 80 (hard coded);
-    const angleDegrees = (normalizedHorizontalDistance / (arrowRect.width / 2) * 40);
-
-    //Set the CSS tranform property to rotate the arrow
-    this.arrowTransform = `rotate(${angleDegrees}deg)`;
-  }
-
-  onMoveArrow(event: MouseEvent) {
-    if (this.arrowClicked) {
-      this.calculateArrowAngle(event)
-    }
-  }
-
-  onClickArrow(event: MouseEvent) {
-    this.arrowClicked = true;
-    this.initialMouseX = event.clientX;
-    this.initialMouseY = event.clientY;
-
-    this.calculateArrowAngle(event);
-  }
-
-  onReleaseArrow() {
-    this.arrowClicked = false;
+  onClickInteractOption(value: string){
+    this.selectedOption = value;
+    this.bubbleService.setInteractOption(value);
   }
 }
