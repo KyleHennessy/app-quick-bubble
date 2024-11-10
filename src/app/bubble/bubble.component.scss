@@ -1,18 +1,16 @@
 .bubble {
   position: absolute;
-  height: 45px;
-  width: 300px;
-  transform-origin: 50% 50% 0px;
-  border-radius: 5px;
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
   color: white;
-  line-height: 40px;
-  padding-left: 32px;
-  font-size: 14.5px;
+  font-size: 15px;
   text-transform: uppercase;
   letter-spacing: 2px;
   touch-action: none;
   display: flex;
   align-items: center;
+  justify-content: center;
   max-width: 500px;
 }
 
@@ -29,16 +27,11 @@
 }
 
 .content {
-  display: flex;
-  align-items: center;
-  width: 100%;
+  padding: 20px;
 }
 
 .message {
-  flex-grow: 1;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  word-break: break-word;
 }
 
 .copy {
