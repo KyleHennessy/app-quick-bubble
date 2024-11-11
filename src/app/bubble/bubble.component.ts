@@ -30,8 +30,8 @@ import { Toast } from '../models/toast.model';
 export class BubbleComponent implements OnInit {
   @Input() model?: Bubble;
   id: string;
-  pos = [window.innerWidth / 2 - 150, window.innerHeight / 2];
-  transform = `translate3d(${window.innerWidth / 2 - 150}px, -10000px, 0)`;
+  pos = [window.innerWidth / 2, window.innerHeight / 2 - 80];
+  transform: string;
   state = 'default';
   mouseDown = false;
   velocity = [0, 0];
@@ -49,7 +49,7 @@ export class BubbleComponent implements OnInit {
   ngOnInit(): void {
     setTimeout(() => {
       this.state = 'moved';
-      this.transform = `translate3d(${this.pos[0]}px, ${this.pos[1]}px, 0)`;
+      this.transform = `translate3d(${this.pos[0] - 100}px, ${this.pos[1] - 100}px, 0)`;
       this.startIdleTimer();
     }, 0);
 
@@ -96,7 +96,7 @@ export class BubbleComponent implements OnInit {
       const { clientX, clientY } = event;
       this.velocity = [clientX - this.pos[0], clientY - this.pos[1]];
       this.pos = [clientX, clientY];
-      this.transform = `translate3d(${clientX - 150}px, ${clientY}px, 0)`;
+      this.transform = `translate3d(${clientX - 100}px, ${clientY - 100}px, 0)`;
       this.state = 'moved';
     }
   }
@@ -121,17 +121,17 @@ export class BubbleComponent implements OnInit {
       const windowWidth = window.innerWidth;
       const windowHeight = window.innerHeight;
 
-      if (this.pos[0] <= 0 || this.pos[0] >= windowWidth - 200) {
+      if (this.pos[0] <= 0 || this.pos[0] >= windowWidth) {
         this.velocity[0] = -this.velocity[0];
         this.pos[0] = Math.max(0, Math.min(this.pos[0], windowWidth));
       }
 
-      if (this.pos[1] <= 0 || this.pos[1] >= windowHeight - 200) {
+      if (this.pos[1] <= 0 || this.pos[1] >= windowHeight) {
         this.velocity[1] = -this.velocity[1];
         this.pos[1] = Math.max(0, Math.min(this.pos[1], windowHeight));
       }
 
-      this.transform = `translate3d(${this.pos[0]}px, ${this.pos[1]}px, 0)`;
+      this.transform = `translate3d(${this.pos[0] - 100}px, ${this.pos[1] - 100}px, 0)`;
       this.state = 'moved';
 
       if (Math.abs(this.velocity[0]) < 0.1 && Math.abs(this.velocity[1]) < 0.1) {
@@ -168,12 +168,12 @@ export class BubbleComponent implements OnInit {
       const windowWidth = window.innerWidth;
       const windowHeight = window.innerHeight;
 
-      if (this.pos[0] <= 0 || this.pos[0] >= windowWidth - 200) {
+      if (this.pos[0] <= 0 || this.pos[0] >= windowWidth) {
         this.velocity[0] = -this.velocity[0];
         this.pos[0] = Math.max(0, Math.min(this.pos[0], windowWidth));
       }
 
-      if (this.pos[1] <= 0 || this.pos[1] >= windowHeight - 200) {
+      if (this.pos[1] <= 0 || this.pos[1] >= windowHeight) {
         this.velocity[1] = -this.velocity[1];
         this.pos[1] = Math.max(0, Math.min(this.pos[1], windowHeight));
       }
@@ -183,7 +183,7 @@ export class BubbleComponent implements OnInit {
         this.velocity = [Math.random() * 4 - 1, Math.random() * 4 - 1];
       }
 
-      this.transform = `translate3d(${this.pos[0]}px, ${this.pos[1]}px, 0)`;
+      this.transform = `translate3d(${this.pos[0] - 100}px, ${this.pos[1] - 100}px, 0)`;
       this.state = 'moved';
     });
   }
