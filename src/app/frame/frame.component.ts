@@ -25,11 +25,7 @@ export class FrameComponent implements OnInit, OnDestroy {
       this.bubbles = bubbles;
     });
   }
-
-  onBubbleDeleted(position: number[], bubbleId: string){
-    this.bubbles.get(bubbleId).finalPosition = `translate3d(${position[0]}px, ${position[1]}px, 0)`;
-  }
-
+  
   ngOnDestroy(): void {
     this.bubbleSubscription.unsubscribe();
   }
