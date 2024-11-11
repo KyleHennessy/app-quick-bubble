@@ -1,5 +1,5 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import { Component, HostListener, Input, OnInit, Output, Renderer2 } from '@angular/core';
+import { Component, EventEmitter, HostListener, Input, OnInit, Output, Renderer2 } from '@angular/core';
 import { interval, Subscription, timer } from 'rxjs';
 import { Bubble } from '../models/bubble.model';
 import { NgStyle } from '@angular/common';
@@ -42,6 +42,7 @@ export class BubbleComponent implements OnInit {
   interactOptionSubscription: Subscription;
   selectedInteractOption = 'move';
   cursor = 'auto';
+  @Output() bubbleDeleted = new EventEmitter<number[]>();
 
   constructor(private bubbleService: BubbleService, private renderer: Renderer2, private messageService: MessageService) { }
 
@@ -53,8 +54,7 @@ export class BubbleComponent implements OnInit {
     }, 0);
 
     timer(20000).subscribe(() => {
-      console.log(this.model?.id)
-      this.bubbleService.removeBubble(this.model?.id);
+      this.onDelete();
     });
 
     this.interactOptionSubscription = this.bubbleService.getInteractOption().subscribe((option) => {
@@ -203,6 +203,7 @@ export class BubbleComponent implements OnInit {
 
   onDelete(){
     this.bubbleService.removeBubble(this.model?.id);
+    this.bubbleDeleted.emit(this.pos);
   }
 }
 

@@ -13,26 +13,21 @@ import { trigger, state, style, transition, animate } from '@angular/animations'
   ],
   templateUrl: './frame.component.html',
   styleUrl: './frame.component.scss',
-  animations:[
-    trigger('fadeOut', [
-      state('void', style({ opacity: 1 })),
-      transition(':leave', [
-        style({ position: 'absolute'}),
-        animate('0.5s', style({ opacity: 0 }))
-      ])
-    ])
-  ]
 })
 export class FrameComponent implements OnInit, OnDestroy {
   bubbles: Map<string, Bubble>;
   bubbleSubscription: Subscription;
   
-
   constructor(private bubbleService: BubbleService){}
+
   ngOnInit(): void {
     this.bubbleSubscription = this.bubbleService.getBubbles().subscribe((bubbles) => {
       this.bubbles = bubbles;
     });
+  }
+
+  onBubbleDeleted(position: number[], bubbleId: string){
+    this.bubbles.get(bubbleId).finalPosition = `translate3d(${position[0]}px, ${position[1]}px, 0)`;
   }
 
   ngOnDestroy(): void {
