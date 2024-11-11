@@ -12,18 +12,9 @@
   align-items: center;
   justify-content: center;
   max-width: 500px;
-}
-
-.grabber {
-  position: absolute;
-  top: -20px; /* Adjust as needed */
-  left: 50%;
-  transform: translateX(-50%);
-  width: 20px; /* Adjust as needed */
-  height: 20px; /* Adjust as needed */
-  background-color: grey; /* Adjust as needed */
-  border-radius: 15px;
-  cursor: grab;
+  &:hover{
+    opacity: 0.8;
+  }
 }
 
 .content {
@@ -33,12 +24,6 @@
 .message {
   word-break: break-word;
 }
-
-.copy {
-  margin-left: 10px; /* Adjust as needed */
-  flex-shrink: 0;
-}
-
 
 @keyframes fadeOut {
   from {
