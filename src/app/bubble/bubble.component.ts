@@ -121,12 +121,12 @@ export class BubbleComponent implements OnInit {
       const windowWidth = window.innerWidth;
       const windowHeight = window.innerHeight;
 
-      if (this.pos[0] <= 0 || this.pos[0] >= windowWidth) {
+      if (this.pos[0] <= 0 || this.pos[0] >= windowWidth - 200) {
         this.velocity[0] = -this.velocity[0];
         this.pos[0] = Math.max(0, Math.min(this.pos[0], windowWidth));
       }
 
-      if (this.pos[1] <= 0 || this.pos[1] >= windowHeight) {
+      if (this.pos[1] <= 0 || this.pos[1] >= windowHeight - 200) {
         this.velocity[1] = -this.velocity[1];
         this.pos[1] = Math.max(0, Math.min(this.pos[1], windowHeight));
       }
@@ -168,12 +168,12 @@ export class BubbleComponent implements OnInit {
       const windowWidth = window.innerWidth;
       const windowHeight = window.innerHeight;
 
-      if (this.pos[0] <= 0 || this.pos[0] >= windowWidth) {
+      if (this.pos[0] <= 0 || this.pos[0] >= windowWidth - 200) {
         this.velocity[0] = -this.velocity[0];
         this.pos[0] = Math.max(0, Math.min(this.pos[0], windowWidth));
       }
 
-      if (this.pos[1] <= 0 || this.pos[1] >= windowHeight) {
+      if (this.pos[1] <= 0 || this.pos[1] >= windowHeight - 200) {
         this.velocity[1] = -this.velocity[1];
         this.pos[1] = Math.max(0, Math.min(this.pos[1], windowHeight));
       }
