@@ -9,6 +9,9 @@
     [ngStyle]="{
         'background': model.colour, 
         'cursor': cursor,
+        'background-image': 'url(data:image/png;base64,' + model.background + ')',
+        'background-size': '100% 100%',
+        'background-position': 'center'
     }"
     (mousedown)="onMouseDown()"
 >       

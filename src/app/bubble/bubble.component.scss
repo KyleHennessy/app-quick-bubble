@@ -12,7 +12,8 @@
   align-items: center;
   justify-content: center;
   max-width: 500px;
-  &:hover{
+
+  &:hover {
     opacity: 0.8;
   }
 }
@@ -29,6 +30,7 @@
   from {
     opacity: 1;
   }
+
   to {
     opacity: 0;
   }

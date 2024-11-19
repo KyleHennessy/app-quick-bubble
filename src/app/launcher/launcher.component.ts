@@ -19,6 +19,7 @@ import { MessageService } from 'primeng/api';
 import { Toast } from '../models/toast.model';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { TooltipModule } from 'primeng/tooltip';
+import { FileSelectEvent, FileUploadModule } from 'primeng/fileupload';
 
 @Component({
   selector: 'app-launcher',
@@ -37,7 +38,9 @@ import { TooltipModule } from 'primeng/tooltip';
     SpeedDialModule,
     FloatLabelModule,
     SelectButtonModule,
-    TooltipModule
+    TooltipModule,
+    FileUploadModule,
+    RadioButtonModule
   ],
   templateUrl: './launcher.component.html',
   styleUrl: './launcher.component.scss',
@@ -47,6 +50,8 @@ export class LauncherComponent {
   message: string = '';
   colour: string = '#0d6efd';
   selectedOption = 'move';
+  backgroundType = 'colour';
+  uploadedFile: string;
   buttonOptions: {icon: string, value: string, tooltip: string}[] = [
     { icon: 'pi pi-arrows-alt', value: 'move', tooltip: 'Tap and hold a bubble to move it'},
     { icon: 'pi pi-clone', value: 'copy', tooltip: 'Tap a bubble to copy it'},
@@ -63,6 +68,10 @@ export class LauncherComponent {
       colour: this.colour
     } as Bubble;
 
+    if(this.uploadedFile){
+      bubble.background = this.uploadedFile;
+    }
+
     this.bubbleService.sendMessage(bubble);
     const toast: Toast = {
       severity: 'success',
@@ -75,5 +84,17 @@ export class LauncherComponent {
   onClickInteractOption(value: string){
     this.selectedOption = value;
     this.bubbleService.setInteractOption(value);
+  }
+
+  onFileSelect(event: FileSelectEvent){
+    console.log(event);
+
+    const file = event.files[0];
+    const reader = new FileReader();
+    reader.onload = () => {
+      const base64String = (reader.result as string).split(',')[1];
+      this.uploadedFile = base64String
+    };
+    reader.readAsDataURL(file)
   }
 }

@@ -29,8 +29,22 @@
     padding: 10px;
 }
 
-p-inputgroupaddon.p-element.p-inputgroup-addon{
+p-inputgroupaddon.p-element.p-inputgroup-addon {
     width: 20px;
     height: 44px;
     padding: 10px;
+}
+
+input.p-element.p-colorpicker-preview.p-inputtext {
+    height: 100%;
+    ;
+    width: 50px;
+}
+
+.ui-fileupload-choose {
+    display: none !important;
+}
+
+.hide-file-name .ui-fileupload-filename {
+    display: none;
 }
