@@ -13,8 +13,6 @@ import { InputGroupModule } from 'primeng/inputgroup';
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { SpeedDialModule } from 'primeng/speeddial';
 import { FloatLabelModule } from 'primeng/floatlabel';
-import { MessageModule } from 'primeng/message';
-import { MessagesModule } from 'primeng/messages';
 import { MessageService } from 'primeng/api';
 import { Toast } from '../models/toast.model';
 import { SelectButtonModule } from 'primeng/selectbutton';
@@ -53,9 +51,9 @@ export class LauncherComponent {
   backgroundType = 'colour';
   uploadedFile: string;
   buttonOptions: {icon: string, value: string, tooltip: string}[] = [
-    { icon: 'pi pi-arrows-alt', value: 'move', tooltip: 'Tap and hold a bubble to move it'},
-    { icon: 'pi pi-clone', value: 'copy', tooltip: 'Tap a bubble to copy it'},
-    { icon: 'pi pi-trash', value: 'delete', tooltip: 'Tap a bubble to delete it' },
+    { icon: 'pi pi-arrows-alt', value: 'move', tooltip: 'Move'},
+    { icon: 'pi pi-clone', value: 'copy', tooltip: 'Copy'},
+    { icon: 'pi pi-trash', value: 'delete', tooltip: 'Delete' },
   ];
 
   @ViewChild('arrow') arrowElem: ElementRef;
@@ -87,8 +85,6 @@ export class LauncherComponent {
   }
 
   onFileSelect(event: FileSelectEvent){
-    console.log(event);
-
     const file = event.files[0];
     const reader = new FileReader();
     reader.onload = () => {

@@ -37,7 +37,6 @@ p-inputgroupaddon.p-element.p-inputgroup-addon {
 
 input.p-element.p-colorpicker-preview.p-inputtext {
     height: 100%;
-    ;
     width: 50px;
 }
 
@@ -47,4 +46,14 @@ input.p-element.p-colorpicker-preview.p-inputtext {
 
 .hide-file-name .ui-fileupload-filename {
     display: none;
+}
+
+.file-preview{
+    margin-top: 4px;
+    border-radius: 10%;
+    cursor: pointer;
+    
+    &:hover {
+        opacity: 0.8;
+    }
 }

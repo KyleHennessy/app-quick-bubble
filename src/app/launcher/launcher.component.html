@@ -6,51 +6,33 @@
                 <label for="message">Message</label>
             </p-floatLabel>
             <p-inputGroupAddon>
-                @if (backgroundType === 'image') {
-                    <p-fileUpload 
+                <p-colorPicker [disabled]="uploadedFile" [(ngModel)]="colour"></p-colorPicker>
+            </p-inputGroupAddon>
+            <p-inputGroupAddon>
+                @if (uploadedFile) {
+                    <img 
+                        class="file-preview"
+                        height="43" 
+                        width="47" 
+                        [src]="'data:image/png;base64,' + uploadedFile"
+                        (click)="uploadedFile = null">
+                } @else {
+                    <p-fileUpload
+                        #fileUploader
                         mode="basic" 
                         chooseIcon="pi pi-upload"
                         accept="image/*" 
                         maxFileSize="1000000"
-                        cancelLabel="blah"
                         uploadLabel=""
                         class="hide-file-name"
-                        (onSelect)="onFileSelect($event)"/>
-                } @else {
-                    <p-colorPicker [(ngModel)]="colour"></p-colorPicker>
+                        (onSelect)="onFileSelect($event)">
+                    </p-fileUpload>
                 }
             </p-inputGroupAddon>
         </p-inputGroup>
     </div>
 </div>
-<div class="grid mb-3">
-    <div class="col">
-        <div class="flex flex-column md:flex-row md:justify-content-between row-gap-3">
-            <div class="flex align-items-center">
-                <p-radioButton 
-                    name="Colour" 
-                    value="colour" 
-                    [(ngModel)]="backgroundType"
-                    inputId="colourBackground" />
-                <label for="colourBackground" class="ml-2">
-                    Colour
-                </label>
-            </div>
-            
-            <div class="flex align-items-center">
-                <p-radioButton 
-                    name="Image" 
-                    value="image" 
-                    [(ngModel)]="backgroundType"
-                    inputId="imageBackground" />
-                <label for="imageBackground" class="ml-2">
-                    Image
-                </label>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="grid mb-3">
+<div class="grid">
     <div class="col">
         <div class="flex flex-wrap justify-content-between gap-3">
             @for (option of buttonOptions; track option) {
@@ -72,6 +54,6 @@
 </div>
 <div class="grid">
     <div class="col-12">
-        <p-button label="Send" (click)="sendMessage(message, colour)" [style]="{ width: '100%' }"></p-button>
+        <p-button label="Send Bubble" (click)="sendMessage(message, colour)" [style]="{ width: '100%' }"></p-button>
     </div>
 </div>
