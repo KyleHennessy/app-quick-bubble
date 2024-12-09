@@ -49,8 +49,10 @@ input.p-element.p-colorpicker-preview.p-inputtext {
 }
 
 .file-preview{
-    margin-top: 4px;
+    margin-top: 7px;
     border-radius: 10%;
+    height: 43px; 
+    width: 47px;
     cursor: pointer;
     
     &:hover {

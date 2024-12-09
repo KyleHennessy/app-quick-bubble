@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import * as signalR from '@microsoft/signalr';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { Bubble } from '../models/bubble.model';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -10,10 +11,11 @@ export class BubbleService {
   private hubConnection: signalR.HubConnection;
   private bubbles = new BehaviorSubject<Map<string, Bubble>>(new Map<string, Bubble>([]));
   private selectedInteractOption = new BehaviorSubject<string>('move');
+  private hubUrl = environment.api + '/bubblehub';
 
   constructor() { 
     this.hubConnection = new signalR.HubConnectionBuilder()
-      .withUrl('https://localhost:7016/bubblehub', {
+      .withUrl(this.hubUrl, {
         skipNegotiation: true,
         transport: signalR.HttpTransportType.WebSockets
       })

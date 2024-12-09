@@ -1,6 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { LauncherComponent } from './launcher.component';
+import { MessageService } from 'primeng/api';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('LauncherComponent', () => {
   let component: LauncherComponent;
@@ -8,7 +10,8 @@ describe('LauncherComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [LauncherComponent]
+      imports: [LauncherComponent, HttpClientTestingModule],
+      providers: [MessageService]
     })
     .compileComponents();
 
