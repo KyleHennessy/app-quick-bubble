@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import * as signalR from '@microsoft/signalr';
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { Bubble } from '../models/bubble.model';
 import { environment } from '../../environments/environment';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -12,8 +13,9 @@ export class BubbleService {
   private bubbles = new BehaviorSubject<Map<string, Bubble>>(new Map<string, Bubble>([]));
   private selectedInteractOption = new BehaviorSubject<string>('move');
   private hubUrl = environment.api + '/bubblehub';
+  private connectionId;
 
-  constructor() { 
+  constructor(private http: HttpClient) { 
     this.hubConnection = new signalR.HubConnectionBuilder()
       .withUrl(this.hubUrl, {
         skipNegotiation: true,
@@ -43,6 +45,9 @@ export class BubbleService {
   }
 
   startConnection(): Observable<void>{
+    this.hubConnection.on('Connected', (connectionId) => {
+      this.connectionId = connectionId;
+    })
     return new Observable<void>((observer) => {
       this.hubConnection
         .start()
@@ -67,6 +72,12 @@ export class BubbleService {
   }
 
   sendMessage(message: Bubble): void {
-    this.hubConnection.invoke('SendMessage', message);
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+
+    const endpoint = environment.api + `api/bubble/send/${this.connectionId}`;
+    
+    this.http.post(endpoint, message, { headers }).subscribe({
+      next: () => {}
+    });
   }
 }
