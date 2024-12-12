@@ -74,7 +74,7 @@ export class BubbleService {
   sendMessage(message: Bubble): void {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 
-    const endpoint = environment.api + `api/bubble/send/${this.connectionId}`;
+    const endpoint = environment.api + `/api/bubble/send/${this.connectionId}`;
     
     this.http.post(endpoint, message, { headers }).subscribe({
       next: () => {}
