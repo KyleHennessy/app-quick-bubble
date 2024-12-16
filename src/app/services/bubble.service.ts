@@ -20,7 +20,7 @@ export class BubbleService {
     this.hubConnection = new signalR.HubConnectionBuilder()
       .withUrl(this.hubUrl, {
         transport: signalR.HttpTransportType.WebSockets,
-        withCredentials: true
+        withCredentials: false
       })
       .build();
 
