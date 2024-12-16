@@ -19,7 +19,8 @@ export class BubbleService {
   constructor(private http: HttpClient) {
     this.hubConnection = new signalR.HubConnectionBuilder()
       .withUrl(this.hubUrl, {
-        transport: signalR.HttpTransportType.WebSockets
+        transport: signalR.HttpTransportType.WebSockets,
+        withCredentials: true
       })
       .build();
 
