@@ -57,7 +57,7 @@ export class BubbleComponent implements OnInit {
       this.onDelete();
     });
 
-    this.interactOptionSubscription = this.bubbleService.getInteractOption().subscribe((option) => {
+    this.interactOptionSubscription = this.bubbleService.interactOption$.subscribe((option) => {
       this.selectedInteractOption = option;
       if (option === 'move') {
         this.cursor = 'grab';

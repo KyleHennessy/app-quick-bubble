@@ -10,74 +10,44 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 })
 export class BubbleService {
   private hubConnection: signalR.HubConnection;
-  private bubbles = new BehaviorSubject<Map<string, Bubble>>(new Map<string, Bubble>([]));
+  private bubblesSubject = new BehaviorSubject<Map<string, Bubble>>(new Map<string, Bubble>([]));
   private selectedInteractOption = new BehaviorSubject<string>('move');
+  bubbles$ = this.bubblesSubject.asObservable();
+  interactOption$ = this.selectedInteractOption.asObservable();
   private hubUrl = environment.api + '/bubblehub';
-  private connectionId;
 
-  constructor(private http: HttpClient) { 
+  constructor(private http: HttpClient) {
     this.hubConnection = new signalR.HubConnectionBuilder()
       .withUrl(this.hubUrl, {
-        skipNegotiation: true,
         transport: signalR.HttpTransportType.WebSockets
       })
       .build();
+
+    this.hubConnection
+      .start()
+      .then(() => console.log('Connected to SignalR hub ' + this.hubConnection.connectionId))
+      .catch(err => console.error('Error connecting to SignalR hub:', err));
+
+    this.hubConnection.on('ReceiveBubble', (bubble: Bubble) => {
+      this.bubblesSubject.value.set(bubble.id, bubble);
+    });
   }
 
-  pushBubble(bubble: Bubble) {
-    this.bubbles.value.set(bubble.id, bubble);
-  }
-
-  getBubbles() : Observable<Map<string, Bubble>>{
-    return this.bubbles;
-  }
-
-  removeBubble(id: string) : void{
-    this.bubbles.value.delete(id);
+  removeBubble(id: string): void {
+    this.bubblesSubject.value.delete(id);
   }
 
   setInteractOption(option: string): void {
     this.selectedInteractOption.next(option);
   }
 
-  getInteractOption(): Observable<string>{
-    return this.selectedInteractOption.asObservable();
-  }
-
-  startConnection(): Observable<void>{
-    this.hubConnection.on('Connected', (connectionId) => {
-      this.connectionId = connectionId;
-    })
-    return new Observable<void>((observer) => {
-      this.hubConnection
-        .start()
-        .then(() => {
-          console.log('Connection established with SignalR hub');
-          observer.next();
-          observer.complete();
-        })
-        .catch((error) => {
-          console.error('Error connecting to SignalR hub:', error);
-          observer.error(error);
-        })
-    })
-  }
-
-  receiveMessage(): Observable<Bubble> {
-    return new Observable<Bubble>((observer) => {
-      this.hubConnection.on('ReceiveMessage', (message: Bubble) => {
-        observer.next(message);
-      });
-    });
-  }
-
   sendMessage(message: Bubble): void {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 
-    const endpoint = environment.api + `/api/bubble/send/${this.connectionId}`;
-    
+    const endpoint = environment.api + `/api/bubble/send/${this.hubConnection.connectionId}`;
+
     this.http.post(endpoint, message, { headers }).subscribe({
-      next: () => {}
+      next: () => { }
     });
   }
 }

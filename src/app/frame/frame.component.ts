@@ -21,7 +21,7 @@ export class FrameComponent implements OnInit, OnDestroy {
   constructor(private bubbleService: BubbleService){}
 
   ngOnInit(): void {
-    this.bubbleSubscription = this.bubbleService.getBubbles().subscribe((bubbles) => {
+    this.bubbleSubscription = this.bubbleService.bubbles$.subscribe((bubbles) => {
       this.bubbles = bubbles;
     });
   }
