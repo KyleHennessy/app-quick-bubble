@@ -90,10 +90,11 @@ export class BubbleComponent implements OnInit {
     }
   }
 
+  @HostListener('document:touchmove', ['$event'])
   @HostListener('document:mousemove', ['$event'])
-  onMouseMove(event: MouseEvent) {
+  onMouseMove(event: any) {
     if (this.mouseDown) {
-      const { clientX, clientY } = event;
+      const { clientX, clientY } = event.touches ? event?.touches[0] : event
       this.velocity = [clientX - this.pos[0], clientY - this.pos[1]];
       this.pos = [clientX, clientY];
       this.transform = `translate3d(${clientX - 100}px, ${clientY - 100}px, 0)`;
@@ -101,6 +102,7 @@ export class BubbleComponent implements OnInit {
     }
   }
 
+  @HostListener('document:touchend')
   @HostListener('document:mouseup')
   onMouseUp() {
     if (this.mouseDown && this.selectedInteractOption === 'move') {
