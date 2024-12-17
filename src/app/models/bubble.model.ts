@@ -3,4 +3,5 @@ export interface Bubble {
     message: string;
     colour: string;
     background?: string | null;
+    send?: boolean;
 }

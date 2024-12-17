@@ -58,12 +58,12 @@ export class LauncherComponent {
 
   @ViewChild('arrow') arrowElem: ElementRef;
 
-  constructor(private bubbleService: BubbleService, private messageService: MessageService) { }
+  constructor(private bubbleService: BubbleService) { }
 
-  sendMessage(message: string, colour: string) {
+  sendMessage(message: string) {
     const bubble = {
       message: message,
-      colour: this.colour
+      colour: this.colour,
     } as Bubble;
 
     if(this.uploadedFile){
@@ -71,12 +71,6 @@ export class LauncherComponent {
     }
 
     this.bubbleService.sendMessage(bubble);
-    const toast: Toast = {
-      severity: 'success',
-      summary: 'Success',
-      detail: 'Bubble sent successfully'
-    }
-    this.messageService.add(toast)
   }
 
   onClickInteractOption(value: string){

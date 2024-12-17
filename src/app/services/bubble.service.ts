@@ -48,7 +48,10 @@ export class BubbleService {
     const endpoint = environment.api + `/api/bubble/send/${this.hubConnection.connectionId}`;
 
     this.http.post(endpoint, message, { headers }).subscribe({
-      next: () => { }
+      next: (response: Bubble) => {
+        response.send = true;
+        this.bubblesSubject.value.set(response.id, response);
+      }
     });
   }
 }

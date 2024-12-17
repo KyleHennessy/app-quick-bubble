@@ -25,10 +25,16 @@ import { Toast } from '../models/toast.model';
       state('moved', style({ transform: '{{transform}}' }), { params: { transform: 'translateY(10000px)' } }),
       transition('default => moved', animate('1s ease-out'))
     ]),
+    trigger('sendBubble', [
+      state('default', style({ transform: `translate3d(${window.innerWidth / 2 - 150}px, 10000px, 0)` })),
+      state('moved', style({ transform: '{{transform}}' }), { params: { transform: 'translateY(10000px)' } }),
+      transition('default => moved', animate('1s ease-out'))
+    ])
   ]
 })
 export class BubbleComponent implements OnInit {
   @Input() model?: Bubble;
+  @Input() send = false;
   id: string;
   pos = [window.innerWidth / 2, window.innerHeight / 2 - 80];
   transform: string;

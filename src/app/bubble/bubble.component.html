@@ -1,22 +1,47 @@
-<div #bubble 
-    class="bubble" 
-    [@moveBubble]="{
-        value: state,
-        params: {
-            transform: transform
-        }
-    }"
-    [ngStyle]="{
-        'background': model.colour, 
-        'cursor': cursor,
-        'background-image': 'url(data:image/png;base64,' + model.background + ')',
-        'background-size': '100% 100%',
-        'background-position': 'center'
-    }"
-    (mousedown)="onMouseDown()"
-    (touchstart)="onMouseDown()"
->       
-    <div class="content">
-        <span class="message">{{model?.message}}</span>
+@if (model.send) {
+    <div #bubble 
+        class="bubble" 
+        [@sendBubble]="{
+            value: state,
+            params: {
+                transform: transform
+            }
+        }"
+        [ngStyle]="{
+            'background': model.colour, 
+            'cursor': cursor,
+            'background-image': model.background ? 'url(data:image/png;base64,' + model.background + ')' : null,
+            'background-size': '100% 100%',
+            'background-position': 'center'
+        }"
+        (mousedown)="onMouseDown()"
+        (touchstart)="onMouseDown()"
+    >       
+        <div class="content">
+            <span class="message">{{model?.message}}</span>
+        </div>
     </div>
-</div>
+} @else {
+    <div #bubble 
+        class="bubble" 
+        [@moveBubble]="{
+            value: state,
+            params: {
+                transform: transform
+            }
+        }"
+        [ngStyle]="{
+            'background': model.colour, 
+            'cursor': cursor,
+            'background-image': 'url(data:image/png;base64,' + model.background + ')',
+            'background-size': '100% 100%',
+            'background-position': 'center'
+        }"
+        (mousedown)="onMouseDown()"
+        (touchstart)="onMouseDown()"
+    >       
+        <div class="content">
+            <span class="message">{{model?.message}}</span>
+        </div>
+    </div>
+}
