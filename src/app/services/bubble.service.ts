@@ -12,11 +12,9 @@ import { MessageService } from 'primeng/api';
 export class BubbleService {
   private hubConnection: signalR.HubConnection;
   private bubblesSubject = new BehaviorSubject<Map<string, Bubble>>(new Map<string, Bubble>([]));
-  private selectedInteractOption = new BehaviorSubject<string>('move');
   private sendingSubject = new BehaviorSubject<boolean>(false);
   private errorSubject = new Subject<number>();
   bubbles$ = this.bubblesSubject.asObservable();
-  interactOption$ = this.selectedInteractOption.asObservable();
   sending$ = this.sendingSubject.asObservable();
   errors$ = this.errorSubject.asObservable();
   private hubUrl = environment.api + '/bubblehub';
@@ -41,10 +39,6 @@ export class BubbleService {
 
   removeBubble(id: string): void {
     this.bubblesSubject.value.delete(id);
-  }
-
-  setInteractOption(option: string): void {
-    this.selectedInteractOption.next(option);
   }
 
   sendMessage(message: Bubble): void {

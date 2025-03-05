@@ -53,11 +53,6 @@ export class LauncherComponent implements OnInit, OnDestroy {
   sending: boolean;
   sendingSubscription: Subscription;
   errorSubscription: Subscription;
-  buttonOptions: {icon: string, value: string, tooltip: string}[] = [
-    { icon: 'pi pi-arrows-alt', value: 'move', tooltip: 'Move'},
-    { icon: 'pi pi-clone', value: 'copy', tooltip: 'Copy'},
-    { icon: 'pi pi-trash', value: 'delete', tooltip: 'Delete' },
-  ];
 
   @ViewChild('arrow') arrowElem: ElementRef;
 
@@ -66,14 +61,21 @@ export class LauncherComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.sendingSubscription = this.bubbleService.sending$.subscribe((sending) => {
       this.sending = sending;
-      if(this.sending === false) {
+      if (this.sending === false) {
         this.message = null;
         this.uploadedFile = null;
       }
     });
 
     this.errorSubscription = this.bubbleService.errors$.subscribe(() => {
-      this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Something went wrong! Try again later', closable: false });
+      this.messageService.add(
+        {
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Something went wrong! Try again later',
+          closable: false
+        }
+      );
     })
   }
 
@@ -83,19 +85,14 @@ export class LauncherComponent implements OnInit, OnDestroy {
       colour: this.colour,
     } as Bubble;
 
-    if(this.uploadedFile){
+    if (this.uploadedFile) {
       bubble.background = this.uploadedFile;
     }
 
     this.bubbleService.sendMessage(bubble);
   }
 
-  onClickInteractOption(value: string){
-    this.selectedOption = value;
-    this.bubbleService.setInteractOption(value);
-  }
-
-  onFileSelect(event: FileSelectEvent){
+  onFileSelect(event: FileSelectEvent) {
     const file = event.files[0];
     const reader = new FileReader();
     reader.onload = () => {
@@ -105,8 +102,8 @@ export class LauncherComponent implements OnInit, OnDestroy {
     reader.readAsDataURL(file)
   }
 
-  onClearUploadedFile(){
-    if(!this.sending){
+  onClearUploadedFile() {
+    if (!this.sending) {
       this.uploadedFile = null;
     }
   }

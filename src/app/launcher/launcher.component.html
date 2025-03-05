@@ -36,26 +36,6 @@
     </div>
 </div>
 <div class="grid">
-    <div class="col">
-        <div class="flex flex-wrap justify-content-between gap-3">
-            @for (option of buttonOptions; track option) {
-                <p-button 
-                    type="button"
-                    (click)="onClickInteractOption(option.value)"
-                    [severity]="selectedOption === option.value ? 'primary' : 'secondary'" 
-                    [disabled]="selectedOption === option.value"
-                    [outlined]="selectedOption !== option.value"
-                    [icon]="option.icon"
-                    [pTooltip]="option.tooltip"
-                    tooltipPosition="bottom"
-                    tooltipEvent="focus"
-                    hideDelay="1500">
-                </p-button>
-            }
-        </div>
-    </div>
-</div>
-<div class="grid">
     <div class="col-12">
         <p-button [label]="sending ? 'Sending' : 'Send Bubble'" (click)="sendMessage(message)" [style]="{ width: '100%' }" [disabled]="sending || !message" [loading]="sending"></p-button>
     </div>

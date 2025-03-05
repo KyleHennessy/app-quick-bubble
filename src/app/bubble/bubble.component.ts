@@ -7,7 +7,12 @@ import { BubbleService } from '../services/bubble.service';
 import { ButtonModule } from 'primeng/button';
 import { TooltipModule } from 'primeng/tooltip';
 import { MessageService } from 'primeng/api';
-import { Toast } from '../models/toast.model';
+
+export enum InteractOptions {
+  Move = "move",
+  Copy = "copy",
+  Delete = "delete"
+}
 
 @Component({
   selector: 'app-bubble',
@@ -46,9 +51,9 @@ export class BubbleComponent implements OnInit {
   idleSubscription: Subscription;
   autoMoveSubscription: Subscription;
   interactOptionSubscription: Subscription;
-  selectedInteractOption = 'move';
   cursor = 'auto';
   @ViewChild('bubble') bubbleRef: ElementRef;
+  lastTap = 0;
 
   constructor(private bubbleService: BubbleService, private renderer: Renderer2, private messageService: MessageService) { }
 
@@ -62,37 +67,26 @@ export class BubbleComponent implements OnInit {
     timer(20000).subscribe(() => {
       this.onDelete();
     });
-
-    this.interactOptionSubscription = this.bubbleService.interactOption$.subscribe((option) => {
-      this.selectedInteractOption = option;
-      if (option === 'move') {
-        this.cursor = 'grab';
-      } else {
-        this.cursor = 'pointer';
-      }
-    })
   }
 
   onMouseDown() {
-    switch (this.selectedInteractOption) {
-      case 'move':
-        this.mouseDown = true;
-        this.cursor = 'grabbing';
-        this.renderer.setStyle(document.body, 'cursor', this.cursor);
-        this.resetIdleTimer();
-        if (this.animationSubscription) {
-          this.animationSubscription.unsubscribe();
-        }
-        if (this.autoMoveSubscription) {
-          this.autoMoveSubscription.unsubscribe();
-        }
-        break;
-      case 'copy':
-        this.onCopy();
-        break;
-      case 'delete':
-        this.onDelete();
-        break;
+    const currentTime = new Date().getTime();
+    const tapGap = currentTime - this.lastTap;
+
+    if (tapGap < 300 && tapGap > 0) {
+      this.onCopy();
+    } else {
+      this.mouseDown = true;
+      this.cursor = 'grabbing';
+      this.renderer.setStyle(document.body, 'cursor', this.cursor);
+      this.resetIdleTimer();
+      if (this.animationSubscription) {
+        this.animationSubscription.unsubscribe();
+      }
+      if (this.autoMoveSubscription) {
+        this.autoMoveSubscription.unsubscribe();
+      }
+      this.lastTap = currentTime;
     }
   }
 
@@ -111,7 +105,7 @@ export class BubbleComponent implements OnInit {
   @HostListener('document:touchend')
   @HostListener('document:mouseup')
   onMouseUp() {
-    if (this.mouseDown && this.selectedInteractOption === 'move') {
+    if (this.mouseDown) {
       this.mouseDown = false;
       this.startDeceleration();
       this.startIdleTimer();
@@ -200,12 +194,12 @@ export class BubbleComponent implements OnInit {
     const message = this.model.message;
     if (message) {
       navigator.clipboard.writeText(message);
-      const toast = {
+      this.messageService.add({
         severity: 'info',
         summary: 'Info',
-        detail: 'Message copied to clipboard'
-      } as Toast
-      this.messageService.add(toast)
+        detail: 'Message copied to clipboard',
+        closable: false
+      });
     }
   }
 
@@ -213,7 +207,7 @@ export class BubbleComponent implements OnInit {
     const bubbleElement = this.bubbleRef.nativeElement;
     bubbleElement.classList.add('fade-out');
     bubbleElement.addEventListener('animationend', () => {
-      this.bubbleService.removeBubble(this.model?.id);  
+      this.bubbleService.removeBubble(this.model?.id);
     });
   }
 }
