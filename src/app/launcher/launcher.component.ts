@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { Bubble } from '../models/bubble.model';
 import { BubbleService } from '../services/bubble.service';
 import { FormsModule } from '@angular/forms';
@@ -14,10 +14,10 @@ import { RadioButtonModule } from 'primeng/radiobutton';
 import { SpeedDialModule } from 'primeng/speeddial';
 import { FloatLabelModule } from 'primeng/floatlabel';
 import { MessageService } from 'primeng/api';
-import { Toast } from '../models/toast.model';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { TooltipModule } from 'primeng/tooltip';
 import { FileSelectEvent, FileUploadModule } from 'primeng/fileupload';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-launcher',
@@ -44,12 +44,15 @@ import { FileSelectEvent, FileUploadModule } from 'primeng/fileupload';
   styleUrl: './launcher.component.scss',
   encapsulation: ViewEncapsulation.None
 })
-export class LauncherComponent {
+export class LauncherComponent implements OnInit, OnDestroy {
   message: string = '';
   colour: string = '#0d6efd';
   selectedOption = 'move';
   backgroundType = 'colour';
   uploadedFile: string;
+  sending: boolean;
+  sendingSubscription: Subscription;
+  errorSubscription: Subscription;
   buttonOptions: {icon: string, value: string, tooltip: string}[] = [
     { icon: 'pi pi-arrows-alt', value: 'move', tooltip: 'Move'},
     { icon: 'pi pi-clone', value: 'copy', tooltip: 'Copy'},
@@ -58,7 +61,21 @@ export class LauncherComponent {
 
   @ViewChild('arrow') arrowElem: ElementRef;
 
-  constructor(private bubbleService: BubbleService) { }
+  constructor(private bubbleService: BubbleService, private messageService: MessageService) { }
+
+  ngOnInit(): void {
+    this.sendingSubscription = this.bubbleService.sending$.subscribe((sending) => {
+      this.sending = sending;
+      if(this.sending === false) {
+        this.message = null;
+        this.uploadedFile = null;
+      }
+    });
+
+    this.errorSubscription = this.bubbleService.errors$.subscribe(() => {
+      this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Something went wrong! Try again later', closable: false });
+    })
+  }
 
   sendMessage(message: string) {
     const bubble = {
@@ -86,5 +103,16 @@ export class LauncherComponent {
       this.uploadedFile = base64String
     };
     reader.readAsDataURL(file)
+  }
+
+  onClearUploadedFile(){
+    if(!this.sending){
+      this.uploadedFile = null;
+    }
+  }
+
+  ngOnDestroy(): void {
+    this.sendingSubscription?.unsubscribe();
+    this.errorSubscription?.unsubscribe();
   }
 }

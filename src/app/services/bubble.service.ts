@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import * as signalR from '@microsoft/signalr';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, finalize, Observable, Subject, tap } from 'rxjs';
 import { Bubble } from '../models/bubble.model';
 import { environment } from '../../environments/environment';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+import { MessageService } from 'primeng/api';
 
 @Injectable({
   providedIn: 'root'
@@ -12,11 +13,15 @@ export class BubbleService {
   private hubConnection: signalR.HubConnection;
   private bubblesSubject = new BehaviorSubject<Map<string, Bubble>>(new Map<string, Bubble>([]));
   private selectedInteractOption = new BehaviorSubject<string>('move');
+  private sendingSubject = new BehaviorSubject<boolean>(false);
+  private errorSubject = new Subject<number>();
   bubbles$ = this.bubblesSubject.asObservable();
   interactOption$ = this.selectedInteractOption.asObservable();
+  sending$ = this.sendingSubject.asObservable();
+  errors$ = this.errorSubject.asObservable();
   private hubUrl = environment.api + '/bubblehub';
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private messageService: MessageService) {
     this.hubConnection = new signalR.HubConnectionBuilder()
       .withUrl(this.hubUrl, {
         transport: signalR.HttpTransportType.WebSockets,
@@ -43,14 +48,18 @@ export class BubbleService {
   }
 
   sendMessage(message: Bubble): void {
+    this.sendingSubject.next(true);
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 
     const endpoint = environment.api + `/api/bubble/send/${this.hubConnection.connectionId}`;
 
-    this.http.post(endpoint, message, { headers }).subscribe({
+    this.http.post(endpoint, message, { headers }).pipe(tap(), finalize(() => this.sendingSubject.next(false))).subscribe({
       next: (response: Bubble) => {
         response.send = true;
         this.bubblesSubject.value.set(response.id, response);
+      },
+      error: (err: HttpErrorResponse) => {
+        this.errorSubject.next(err.status);
       }
     });
   }

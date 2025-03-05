@@ -34,7 +34,6 @@ export class AppComponent implements OnInit, OnDestroy {
   constructor(private primngConfig: PrimeNGConfig){}
 
   ngOnInit(): void {
-
     this.primngConfig.ripple = true;
   }
 
