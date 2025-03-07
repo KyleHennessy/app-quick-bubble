@@ -69,7 +69,8 @@ export class BubbleComponent implements OnInit {
     });
   }
 
-  onMouseDown() {
+  onMouseDown(event: any) {
+    event.preventDefault();
     const currentTime = new Date().getTime();
     const tapGap = currentTime - this.lastTap;
 

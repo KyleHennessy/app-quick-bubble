@@ -14,8 +14,8 @@
             'background-size': '100% 100%',
             'background-position': 'center'
         }"
-        (mousedown)="onMouseDown()"
-        (touchstart)="onMouseDown()"
+        (mousedown)="onMouseDown($event)"
+        (touchstart)="onMouseDown($event)"
     >       
         <div class="content">
             <span class="message">{{model?.message}}</span>
@@ -37,8 +37,8 @@
             'background-size': '100% 100%',
             'background-position': 'center'
         }"
-        (mousedown)="onMouseDown()"
-        (touchstart)="onMouseDown()"
+        (mousedown)="onMouseDown($event)"
+        (touchstart)="onMouseDown($event)"
     >       
         <div class="content">
             <span class="message">{{model?.message}}</span>
