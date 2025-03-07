@@ -1,0 +1,12 @@
+.counter{
+    position: fixed;
+    top: 2%;
+    right: 2%;
+    z-index: -1;
+    pointer-events: none;
+    font-size: 18px;
+}
+.p-badge{
+    min-width: 0.5rem !important;
+    height: 0.97rem !important;
+}

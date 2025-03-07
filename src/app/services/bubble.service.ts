@@ -12,11 +12,13 @@ import { MessageService } from 'primeng/api';
 export class BubbleService {
   private hubConnection: signalR.HubConnection;
   private bubblesSubject = new BehaviorSubject<Map<string, Bubble>>(new Map<string, Bubble>([]));
+  private connectionCountSubject = new BehaviorSubject<number>(1);
   private sendingSubject = new BehaviorSubject<boolean>(false);
   private errorSubject = new Subject<number>();
   bubbles$ = this.bubblesSubject.asObservable();
   sending$ = this.sendingSubject.asObservable();
   errors$ = this.errorSubject.asObservable();
+  connectionCount$ = this.connectionCountSubject.asObservable();
   private hubUrl = environment.api + '/bubblehub';
 
   constructor(private http: HttpClient, private messageService: MessageService) {
@@ -32,9 +34,13 @@ export class BubbleService {
       .then(() => console.log('Connected to SignalR hub ' + this.hubConnection.connectionId))
       .catch(err => console.error('Error connecting to SignalR hub:', err));
 
-    this.hubConnection.on('ReceiveBubble', (bubble: Bubble) => {
+    this.hubConnection.on('NewBubble', (bubble: Bubble) => {
       this.bubblesSubject.value.set(bubble.id, bubble);
     });
+
+    this.hubConnection.on('ConnectionUpdate', (count: number) => {
+      this.connectionCountSubject.next(count);
+    })
   }
 
   removeBubble(id: string): void {

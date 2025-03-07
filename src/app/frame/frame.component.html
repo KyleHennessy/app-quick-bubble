@@ -1,3 +1,8 @@
+<div class="counter">
+    <p-badge [severity]="connectionCount > 1 ? 'success' : 'danger'"></p-badge> &nbsp; 
+    {{connectionCount > 1 ? connectionCount - 1 : 'No'}} chatter{{ connectionCount > 2 || connectionCount === 1 ? 's' : '' }} online
+</div>
+
 @for (bubble of bubbles; track bubble[0]) {
     <app-bubble [model]="bubble[1]"></app-bubble>
 }

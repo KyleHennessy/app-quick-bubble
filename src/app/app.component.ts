@@ -29,7 +29,7 @@ import { ToastModule } from 'primeng/toast';
 })
 export class AppComponent implements OnInit, OnDestroy {
   title = 'app-quick-bubble';
-  receiveBubbleSubscription: Subscription;
+  newBubbleSubscription: Subscription;
 
   constructor(private primngConfig: PrimeNGConfig){}
 
@@ -38,6 +38,6 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.receiveBubbleSubscription.unsubscribe();
+    this.newBubbleSubscription.unsubscribe();
   }
 }
