@@ -55,6 +55,7 @@ export class LauncherComponent implements OnInit, OnDestroy {
   errorSubscription: Subscription;
 
   @ViewChild('arrow') arrowElem: ElementRef;
+  @ViewChild('messageInput') messageInput: ElementRef<HTMLInputElement>;
 
   constructor(private bubbleService: BubbleService, private messageService: MessageService) { }
 
@@ -90,6 +91,7 @@ export class LauncherComponent implements OnInit, OnDestroy {
     }
 
     this.bubbleService.sendMessage(bubble);
+    this.messageInput.nativeElement.blur();
   }
 
   onFileSelect(event: FileSelectEvent) {
