@@ -95,13 +95,10 @@ export class BubbleComponent implements OnInit {
   @HostListener('document:mousemove', ['$event'])
   onMouseMove(event: any) {
     if (this.mouseDown) {
-      const { clientX, clientY } = event.touches ? event?.touches[0] : event;
-
-      const x = Math.max(0, Math.min(window.innerWidth - 100, clientX - 100));
-      const y = Math.max(0, Math.min(window.innerHeight - 100, clientY - 100));
-      this.velocity = [x - this.pos[0], y - this.pos[1]];
-      this.pos = [x, y];
-      this.transform = `translate3d(${x}px, ${y}px, 0)`;
+      const { clientX, clientY } = event.touches ? event?.touches[0] : event
+      this.velocity = [clientX - this.pos[0], clientY - this.pos[1]];
+      this.pos = [clientX, clientY];
+      this.transform = `translate3d(${clientX - 100}px, ${clientY - 100}px, 0)`;
       this.state = 'moved';
     }
   }
