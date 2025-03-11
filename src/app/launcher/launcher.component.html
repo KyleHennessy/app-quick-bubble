@@ -2,7 +2,7 @@
     <div class="col">
         <p-inputGroup>
             <p-floatLabel [style]="{width: '100%'}">
-                <input type="text" pInputText [(ngModel)]="message" id="message" [style]="{width: '100%'}"/>
+                <input type="text" pInputText [(ngModel)]="message" id="message" [style]="{width: '100%'}" (keydown.enter)="sendMessage(message)"/>
                 <label for="message">Message</label>
             </p-floatLabel>
             <p-inputGroupAddon>
