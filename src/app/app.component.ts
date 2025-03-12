@@ -9,6 +9,8 @@ import { InputTextModule } from 'primeng/inputtext';
 import { MessageService, PrimeNGConfig } from 'primeng/api';
 import { MessagesModule } from 'primeng/messages';
 import { ToastModule } from 'primeng/toast';
+import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { WelcomeComponent } from './welcome/welcome.component';
 
 @Component({
   selector: 'app-root',
@@ -23,18 +25,29 @@ import { ToastModule } from 'primeng/toast';
     MessagesModule,
     ToastModule
   ],
-  providers:[MessageService],
+  providers:[
+    MessageService,
+    DialogService
+  ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
 export class AppComponent implements OnInit, OnDestroy {
   title = 'app-quick-bubble';
   newBubbleSubscription: Subscription;
+  ref: DynamicDialogRef;
 
-  constructor(private primngConfig: PrimeNGConfig){}
+  constructor(private primengConfig: PrimeNGConfig, public dialogService: DialogService){}
 
   ngOnInit(): void {
-    this.primngConfig.ripple = true;
+    this.primengConfig.ripple = true;
+    const isFirstTime = localStorage.getItem('isFirstTime') === null;
+    if(isFirstTime){
+      this.ref = this.dialogService.open(WelcomeComponent, {
+        width: '90vw',
+        header: 'Welcome to Quick Bubble!'
+      })
+    }
   }
 
   ngOnDestroy(): void {
