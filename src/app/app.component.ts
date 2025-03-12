@@ -36,15 +36,22 @@ export class AppComponent implements OnInit, OnDestroy {
   title = 'app-quick-bubble';
   newBubbleSubscription: Subscription;
   ref: DynamicDialogRef;
+  isMobile = false;
 
   constructor(private primengConfig: PrimeNGConfig, public dialogService: DialogService){}
 
   ngOnInit(): void {
+    if (window.matchMedia('(max-width: 768px)').matches) {
+      this.isMobile = true;
+    } else {
+      this.isMobile = false;
+    }
+    
     this.primengConfig.ripple = true;
     const isFirstTime = localStorage.getItem('isFirstTime') === null;
     if(isFirstTime){
       this.ref = this.dialogService.open(WelcomeComponent, {
-        width: '90vw',
+        width: this.isMobile ? '90vw' : '60vw',
         header: 'Welcome to Quick Bubble!'
       })
     }
