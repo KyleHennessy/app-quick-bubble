@@ -26,12 +26,12 @@ export enum InteractOptions {
   styleUrl: './bubble.component.scss',
   animations: [
     trigger('moveBubble', [
-      state('default', style({ transform: `translate3d(${window.innerWidth / 2 - 150}px, -10000px, 0)` })),
+      state('default', style({ transform: `translate3d(${window.innerWidth / 2}px, -10000px, 0)` })),
       state('moved', style({ transform: '{{transform}}' }), { params: { transform: 'translateY(10000px)' } }),
       transition('default => moved', animate('1s ease-out'))
     ]),
     trigger('sendBubble', [
-      state('default', style({ transform: `translate3d(${window.innerWidth / 2 - 150}px, 10000px, 0)` })),
+      state('default', style({ transform: `translate3d(${window.innerWidth / 2}px, 10000px, 0)` })),
       state('moved', style({ transform: '{{transform}}' }), { params: { transform: 'translateY(10000px)' } }),
       transition('default => moved', animate('1s ease-out'))
     ])
@@ -41,7 +41,7 @@ export class BubbleComponent implements OnInit {
   @Input() model?: Bubble;
   @Input() send = false;
   id: string;
-  pos = [window.innerWidth / 2, window.innerHeight / 2 - 80];
+  pos = [window.innerWidth / 2.6, window.innerHeight / 2 - 80];
   transform: string;
   state = 'default';
   mouseDown = false;
@@ -60,7 +60,7 @@ export class BubbleComponent implements OnInit {
   ngOnInit(): void {
     setTimeout(() => {
       this.state = 'moved';
-      this.transform = `translate3d(${this.pos[0] - 100}px, ${this.pos[1] - 100}px, 0)`;
+      this.transform = `translate3d(${this.pos[0]}px, ${this.pos[1]}px, 0)`;
       this.startIdleTimer();
     }, 0);
 
@@ -141,7 +141,7 @@ export class BubbleComponent implements OnInit {
         this.pos[1] = Math.max(0, Math.min(this.pos[1], windowHeight));
       }
 
-      this.transform = `translate3d(${this.pos[0] - 100}px, ${this.pos[1] - 100}px, 0)`;
+      this.transform = `translate3d(${this.pos[0]}px, ${this.pos[1]}px, 0)`;
       this.state = 'moved';
 
       if (Math.abs(this.velocity[0]) < 0.1 && Math.abs(this.velocity[1]) < 0.1) {
@@ -193,7 +193,7 @@ export class BubbleComponent implements OnInit {
         this.velocity = [Math.random() * 4 - 1, Math.random() * 4 - 1];
       }
 
-      this.transform = `translate3d(${this.pos[0] - 100}px, ${this.pos[1] - 100}px, 0)`;
+      this.transform = `translate3d(${this.pos[0]}px, ${this.pos[1]}px, 0)`;
       this.state = 'moved';
     });
   }

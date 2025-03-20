@@ -6,7 +6,17 @@
     pointer-events: none;
     font-size: 18px;
 }
+
+.help{
+    position: fixed;
+    top: 1px;
+    left: 10px;
+}
 .p-badge{
     min-width: 0.5rem !important;
     height: 0.97rem !important;
+}
+
+span.p-button-icon.pi.pi-question-circle {
+    font-size: 18pt;
 }

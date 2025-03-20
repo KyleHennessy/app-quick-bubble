@@ -1,3 +1,8 @@
+<div class="help">
+    <!-- <p-button icon="" [rounded]="true" severity="secondary"></p-button> -->
+    <p-button icon="pi pi-question-circle" [rounded]="true" [text]="true" (onClick)="onShowHelpModal()"/>
+</div>
+
 <div class="counter">
     <p-badge [severity]="connectionCount > 1 ? 'success' : 'danger'"></p-badge> &nbsp; 
     {{connectionCount > 1 ? connectionCount - 1 : 'No'}} chatter{{ connectionCount > 2 || connectionCount === 1 ? 's' : '' }} online
