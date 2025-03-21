@@ -14,7 +14,7 @@ export class BubbleService {
   private bubblesSubject = new BehaviorSubject<Map<string, Bubble>>(new Map<string, Bubble>([]));
   private connectionCountSubject = new BehaviorSubject<number>(1);
   private sendingSubject = new BehaviorSubject<boolean>(false);
-  private errorSubject = new Subject<number>();
+  private errorSubject = new Subject<string>();
   bubbles$ = this.bubblesSubject.asObservable();
   sending$ = this.sendingSubject.asObservable();
   errors$ = this.errorSubject.asObservable();
@@ -59,7 +59,8 @@ export class BubbleService {
         this.bubblesSubject.value.set(response.id, response);
       },
       error: (err: HttpErrorResponse) => {
-        this.errorSubject.next(err.status);
+        const errorMessage = err?.error?.errors?.Message?.[0] ?? "Something went wrong! Try again later";
+        this.errorSubject.next(errorMessage);
       }
     });
   }
