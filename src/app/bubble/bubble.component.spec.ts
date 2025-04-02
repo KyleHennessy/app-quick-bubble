@@ -4,6 +4,7 @@ import { BubbleComponent } from './bubble.component';
 import { MessageService } from 'primeng/api';
 import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { Bubble } from '../models/bubble.model';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('BubbleComponent', () => {
   let component: BubbleComponent;
@@ -16,7 +17,7 @@ describe('BubbleComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [BubbleComponent, NoopAnimationsModule],
+      imports: [BubbleComponent, NoopAnimationsModule, HttpClientTestingModule],
       providers: [MessageService]
     })
     .compileComponents();

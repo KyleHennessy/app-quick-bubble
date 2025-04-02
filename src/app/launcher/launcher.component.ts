@@ -69,14 +69,16 @@ export class LauncherComponent implements OnInit, OnDestroy {
     });
 
     this.errorSubscription = this.bubbleService.errors$.subscribe((message) => {
-      this.messageService.add(
-        {
-          severity: 'error',
-          summary: 'Uh Oh!',
-          detail: message,
-          closable: false
-        }
-      );
+      if(message){
+        this.messageService.add(
+          {
+            severity: 'error',
+            summary: 'Uh Oh!',
+            detail: message,
+            closable: false
+          }
+        );
+      }
     })
   }
 
