@@ -69,7 +69,7 @@ export class LauncherComponent implements OnInit, OnDestroy {
     });
 
     this.errorSubscription = this.bubbleService.errors$.subscribe((message) => {
-      if(message){
+      if (message) {
         this.messageService.add(
           {
             severity: 'error',
@@ -92,8 +92,19 @@ export class LauncherComponent implements OnInit, OnDestroy {
       bubble.background = this.uploadedFile;
     }
 
-    this.bubbleService.sendMessage(bubble);
-    this.messageInput.nativeElement.blur();
+    if (message) {
+      this.bubbleService.sendMessage(bubble);
+      this.messageInput.nativeElement.blur();
+    } else {
+      this.messageService.add(
+        {
+          severity: 'error',
+          summary: 'Uh Oh!',
+          detail: 'Message is required',
+          closable: false
+        }
+      );
+    }
   }
 
   onFileSelect(event: FileSelectEvent) {
