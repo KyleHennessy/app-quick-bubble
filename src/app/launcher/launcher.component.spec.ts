@@ -12,7 +12,6 @@ describe('LauncherComponent', () => {
   let component: LauncherComponent;
   let fixture: ComponentFixture<LauncherComponent>;
   let bubbleService;
-  let bubbleServiceSpy;
   let messageService;
   let errorSubject: BehaviorSubject<string>;
   let sendingSubject: BehaviorSubject<boolean>;

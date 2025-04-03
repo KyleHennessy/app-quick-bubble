@@ -27,6 +27,7 @@ export class BubbleService {
         transport: signalR.HttpTransportType.WebSockets,
         withCredentials: false
       })
+      .withAutomaticReconnect()
       .build();
 
     this.hubConnection
