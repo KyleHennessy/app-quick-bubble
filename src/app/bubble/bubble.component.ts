@@ -117,11 +117,11 @@ export class BubbleComponent implements OnInit {
       this.mouseDown = false;
       this.startDeceleration();
       this.startIdleTimer();
-      this.cursor = 'grab';
+      this.cursor = 'auto';
       this.renderer.setStyle(document.body, 'cursor', 'auto');
     }
   }
-
+  
   startDeceleration() {
     this.animationSubscription = interval(16).subscribe(() => {
       this.velocity = [this.velocity[0] * this.decay, this.velocity[1] * this.decay];
