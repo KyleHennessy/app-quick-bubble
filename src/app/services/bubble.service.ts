@@ -3,7 +3,7 @@ import * as signalR from '@microsoft/signalr';
 import { BehaviorSubject, finalize, Observable, Subject, tap } from 'rxjs';
 import { Bubble } from '../models/bubble.model';
 import { environment } from '../../environments/environment';
-import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders, HttpStatusCode } from '@angular/common/http';
 import { MessageService } from 'primeng/api';
 
 @Injectable({
@@ -60,7 +60,14 @@ export class BubbleService {
         this.bubblesSubject.value.set(response.id, response);
       },
       error: (err: HttpErrorResponse) => {
-        const errorMessage = err?.error?.errors?.Message?.[0] ?? "Something went wrong! Try again later";
+        let errorMessage;
+        if(err.status == HttpStatusCode.PayloadTooLarge){
+          errorMessage = "File size is too large";
+        }
+        else{
+          errorMessage = err?.error?.errors?.Message?.[0] ?? err?.error?.errors?.Background?.[0]
+        }
+
         this.errorSubject.next(errorMessage);
       }
     });
