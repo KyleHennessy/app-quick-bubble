@@ -94,7 +94,14 @@ export class LauncherComponent implements OnInit, OnDestroy {
 
     if (message) {
       this.bubbleService.sendMessage(bubble);
-      this.messageInput.nativeElement.blur();
+      let isMobile = window.matchMedia('(max-width: 768px)').matches
+
+      if(isMobile){
+        this.messageInput.nativeElement.blur();
+      }
+      else{
+        this.messageInput.nativeElement.focus();
+      }
     } else {
       this.messageService.add(
         {
