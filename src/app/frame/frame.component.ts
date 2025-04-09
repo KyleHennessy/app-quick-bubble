@@ -47,9 +47,8 @@ export class FrameComponent implements OnInit, OnDestroy {
   }
 
   onShowHelpModal(){
-    let isMobile = window.matchMedia('(max-width: 768px)').matches
     this.ref = this.dialogService.open(WelcomeComponent, {
-      width: isMobile ? '90vw' : '60vw',
+      width: 'auto',
       header: 'Need help?'
     });
   }

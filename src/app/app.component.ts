@@ -46,7 +46,7 @@ export class AppComponent implements OnInit, OnDestroy {
     const isFirstTime = localStorage.getItem('isFirstTime') === null;
     if(isFirstTime){
       this.ref = this.dialogService.open(WelcomeComponent, {
-        width: isMobile ? '90vw' : '60vw',
+        width: 'auto',
         header: 'Welcome to Quick Bubble!'
       })
     }
