@@ -52,7 +52,7 @@ export class FrameComponent implements OnInit, OnDestroy {
       this.connectionCount = count;
     });
 
-    timer(15000).subscribe(() => this.showTutorial = false);
+    timer(60000).subscribe(() => this.showTutorial = false);
   }
   
   ngOnDestroy(): void {

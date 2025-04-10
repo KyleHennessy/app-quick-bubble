@@ -16,6 +16,7 @@
 .tutorial {
     z-index: -1000;
     position: fixed;
+    opacity: 0.5;
     left: 50%;
     top: 45%;
     transform: translate(-50%, -50%);

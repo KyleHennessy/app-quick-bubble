@@ -6,7 +6,6 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { BehaviorSubject, of } from 'rxjs';
 import { BubbleService } from '../services/bubble.service';
 import { By } from '@angular/platform-browser';
-import { FileSelectEvent } from 'primeng/fileupload';
 
 describe('LauncherComponent', () => {
   let component: LauncherComponent;
