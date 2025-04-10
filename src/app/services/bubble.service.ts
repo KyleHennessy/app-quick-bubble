@@ -48,16 +48,20 @@ export class BubbleService {
     this.bubblesSubject.value.delete(id);
   }
 
-  sendMessage(message: Bubble): void {
+  sendBubble(bubble: Bubble): void {
     this.sendingSubject.next(true);
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 
     const endpoint = environment.api + `/api/bubble/send/${this.hubConnection.connectionId}`;
 
-    this.http.post(endpoint, message, { headers }).pipe(tap(), finalize(() => this.sendingSubject.next(false))).subscribe({
+    this.http.post(endpoint, bubble, { headers }).pipe(tap(), finalize(() => this.sendingSubject.next(false))).subscribe({
       next: (response: Bubble) => {
         response.send = true;
         this.bubblesSubject.value.set(response.id, response);
+
+        if(response.message !== bubble.message){
+          this.errorSubject.next("watch yo profanity")
+        }
       },
       error: (err: HttpErrorResponse) => {
         let errorMessage;

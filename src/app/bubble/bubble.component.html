@@ -14,6 +14,8 @@
             'background-size': '100% 100%',
             'background-position': 'center'
         }"
+        (mouseenter)="cursor = 'grab'"
+        (mouseleave)="cursor = 'auto'"
         (mousedown)="onMouseDown($event)"
         (touchstart)="onMouseDown($event)"
     >       
@@ -37,6 +39,8 @@
             'background-size': '100% 100%',
             'background-position': 'center'
         }"
+        (mouseenter)="cursor = 'grab'"
+        (mouseleave)="cursor = 'auto'"
         (mousedown)="onMouseDown($event)"
         (touchstart)="onMouseDown($event)"
     >       

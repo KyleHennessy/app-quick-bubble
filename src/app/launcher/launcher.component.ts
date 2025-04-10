@@ -93,7 +93,7 @@ export class LauncherComponent implements OnInit, OnDestroy {
     }
 
     if (message) {
-      this.bubbleService.sendMessage(bubble);
+      this.bubbleService.sendBubble(bubble);
       let isMobile = window.matchMedia('(max-width: 768px)').matches
 
       if(isMobile){

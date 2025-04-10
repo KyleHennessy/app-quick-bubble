@@ -64,7 +64,7 @@ export class BubbleComponent implements OnInit {
       this.startIdleTimer();
     }, 0);
 
-    timer(20000).subscribe(() => {
+    timer(30000).subscribe(() => {
       this.onDelete();
     });
   }
@@ -97,16 +97,16 @@ export class BubbleComponent implements OnInit {
     if (this.mouseDown) {
       const { clientX, clientY } = event.touches ? event.touches[0] : event;
 
-        // Clamp x to stay within the screen width
-        const x = Math.max(0, Math.min(window.innerWidth - 200, clientX - 200 / 2));
-        
-        // Clamp y to stay within the screen height
-        const y = Math.max(0, Math.min(window.innerHeight - 200, clientY - 200 / 2));
+      // Clamp x to stay within the screen width
+      const x = Math.max(0, Math.min(window.innerWidth - 200, clientX - 200 / 2));
 
-        this.velocity = [x - this.pos[0], y - this.pos[1]];
-        this.pos = [x, y];
-        this.transform = `translate3d(${x}px, ${y}px, 0)`;
-        this.state = 'moved';
+      // Clamp y to stay within the screen height
+      const y = Math.max(0, Math.min(window.innerHeight - 200, clientY - 200 / 2));
+
+      this.velocity = [x - this.pos[0], y - this.pos[1]];
+      this.pos = [x, y];
+      this.transform = `translate3d(${x}px, ${y}px, 0)`;
+      this.state = 'moved';
     }
   }
 
@@ -121,7 +121,7 @@ export class BubbleComponent implements OnInit {
       this.renderer.setStyle(document.body, 'cursor', 'auto');
     }
   }
-  
+
   startDeceleration() {
     this.animationSubscription = interval(16).subscribe(() => {
       this.velocity = [this.velocity[0] * this.decay, this.velocity[1] * this.decay];

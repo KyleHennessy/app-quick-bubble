@@ -1,24 +1,16 @@
 .app-container {
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
 }
 
-.p-footer {
-    background-color: red; /* Example background color */
-    padding: 1rem; /* Example padding */
-    text-align: center; /* Center the text */
-    width: 100%;
-    z-index: 10000;
-  }
-  
-  .app-launcher{
-    width: 10px;
-  }
-  
-  .launcher-container{
-    position: fixed;
-    bottom: 10px;
-    left: 50%;
-    transform: translateX(-50%);
-  }
+.app-launcher {
+  width: 10px;
+}
+
+.launcher-container {
+  position: fixed;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+}

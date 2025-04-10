@@ -12,6 +12,18 @@
     top: 1px;
     left: 10px;
 }
+
+.tutorial {
+    z-index: -1000;
+    position: fixed;
+    left: 50%;
+    top: 45%;
+    transform: translate(-50%, -50%);
+    white-space: nowrap;
+    overflow: hidden;
+    transition: opacity 1000ms linear;
+}
+
 .p-badge{
     min-width: 0.5rem !important;
     height: 0.97rem !important;

@@ -19,7 +19,7 @@ describe('LauncherComponent', () => {
   beforeEach(async () => {
     sendingSubject = new BehaviorSubject<boolean>(false);
     errorSubject = new BehaviorSubject<string>(null);
-    bubbleService = jasmine.createSpyObj(['sendMessage'], {
+    bubbleService = jasmine.createSpyObj(['sendBubble'], {
       sending$: sendingSubject.asObservable(),
       errors$: errorSubject.asObservable()
     });
@@ -130,7 +130,7 @@ describe('LauncherComponent', () => {
     component.sendMessage(message);
 
     //Assert
-    expect(bubbleService.sendMessage).toHaveBeenCalledWith({
+    expect(bubbleService.sendBubble).toHaveBeenCalledWith({
       message: message,
       colour: '#0d6efd',
     });
@@ -145,7 +145,7 @@ describe('LauncherComponent', () => {
     component.sendMessage(message);
 
     //Assert
-    expect(bubbleService.sendMessage).toHaveBeenCalledWith({
+    expect(bubbleService.sendBubble).toHaveBeenCalledWith({
       message: message,
       colour: '#0d6efd',
       background: 'File'
@@ -157,7 +157,7 @@ describe('LauncherComponent', () => {
     component.sendMessage(null);
 
     //Assert
-    expect(bubbleService.sendMessage).toHaveBeenCalledTimes(0);
+    expect(bubbleService.sendBubble).toHaveBeenCalledTimes(0);
     expect(messageService.add).toHaveBeenCalledOnceWith({
       severity: 'error',
       summary: 'Uh Oh!',
