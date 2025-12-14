@@ -1,4 +1,4 @@
 export const environment = {
     production: true,
-    api: 'https://quick-bubble-api.azurewebsites.net',
+    api: 'https://quick-bubble-api-au.azurewebsites.net',
 };
